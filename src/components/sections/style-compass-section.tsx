@@ -364,7 +364,7 @@ export function StyleCompassSection({
       pendingCategoryRef.current = categoryId;
 
       if (explorerOpen) {
-        beginClose(displayedCategoryId);
+        beginClose(categoryId);
       }
 
       return;
@@ -427,6 +427,8 @@ export function StyleCompassSection({
     if (!displayedCategoryId || !explorerOpen) {
       return;
     }
+
+    const categoryId = displayedCategoryId;
 
     function handlePointerDown(event: PointerEvent) {
       const target = event.target;
