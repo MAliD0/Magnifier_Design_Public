@@ -442,7 +442,7 @@ export function StyleCompassSection({
       }
 
       pendingCategoryRef.current = null;
-      beginClose(displayedCategoryId);
+      beginClose(categoryId);
     }
 
     document.addEventListener(
