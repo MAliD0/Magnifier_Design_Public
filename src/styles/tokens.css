@@ -1,0 +1,65 @@
+:root {
+  /* Magnifier Design brand palette — Version 1.0, 08/23/2025 */
+  --brand-taupe: #a29990;
+  --brand-taupe-light: #c6c0ba;
+  --brand-taupe-dark: #726e68;
+
+  --brand-light: #efefef;
+  --brand-light-mid: #e5e5e5;
+  --brand-light-dark: #d3d3d3;
+
+  --brand-dark: #232323;
+  --brand-dark-mid: #4c4c4c;
+  --brand-dark-alt: #333333;
+
+  --brand-premium: #5b6d57;
+  --brand-premium-light: #8c9686;
+  --brand-premium-dark: #343d33;
+
+  /* Semantic colours — light */
+  --background: var(--brand-light);
+  --surface: var(--brand-light-mid);
+  --surface-raised: var(--brand-taupe-light);
+  --foreground: var(--brand-dark);
+  --muted: var(--brand-taupe-dark);
+  --border: var(--brand-taupe-light);
+  --accent: var(--brand-taupe);
+  --accent-foreground: var(--brand-dark);
+  --premium: var(--brand-premium);
+  --premium-foreground: var(--brand-light);
+
+  /* Temporary image / material tones */
+  --image-sand: var(--brand-taupe-light);
+  --image-sage: var(--brand-premium-light);
+  --image-clay: var(--brand-taupe);
+  --image-stone: var(--brand-light-dark);
+  --image-ink: var(--brand-premium-dark);
+  --image-ink-foreground: var(--brand-light);
+
+  /* Layout */
+  --content-max-width: 96rem;
+  --page-gutter: clamp(1.25rem, 3vw, 3rem);
+  --section-space: clamp(5rem, 9vw, 10rem);
+}
+
+:root[data-theme="dark"] {
+  /* Semantic colours — dark */
+  --background: var(--brand-dark);
+  --surface: var(--brand-dark-alt);
+  --surface-raised: var(--brand-dark-mid);
+  --foreground: var(--brand-light);
+  --muted: var(--brand-taupe-light);
+  --border: var(--brand-dark-mid);
+  --accent: var(--brand-taupe);
+  --accent-foreground: var(--brand-dark);
+  --premium: var(--brand-premium);
+  --premium-foreground: var(--brand-light);
+
+  /* Temporary image / material tones */
+  --image-sand: var(--brand-taupe-dark);
+  --image-sage: var(--brand-premium);
+  --image-clay: var(--brand-taupe);
+  --image-stone: var(--brand-dark-mid);
+  --image-ink: var(--brand-premium-dark);
+  --image-ink-foreground: var(--brand-light);
+}
