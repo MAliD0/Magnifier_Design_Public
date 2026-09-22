@@ -17,7 +17,9 @@ import type {
   ContactFormValues,
 } from "./contact-form.types";
 
-function hasValue(value: ContactFieldValue | undefined) {
+function hasValue(
+  value: ContactFieldValue | undefined,
+): value is ContactFieldValue {
   if (Array.isArray(value)) {
     return value.length > 0;
   }
