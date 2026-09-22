@@ -1,0 +1,41 @@
+.line {
+  display: block;
+}
+
+.character {
+  display: inline-block;
+  opacity: 0;
+  transform: translateX(var(--animated-character-entry-offset));
+  animation:
+    animatedTextCharacter
+    var(--animated-character-duration)
+    linear
+    var(--animated-character-delay)
+    forwards;
+  will-change: opacity, transform;
+}
+
+@keyframes animatedTextCharacter {
+  0% {
+    opacity: 0;
+    transform: translateX(var(--animated-character-entry-offset));
+  }
+
+  55% {
+    opacity: 1;
+    transform: translateX(var(--animated-character-overshoot));
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .character {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}

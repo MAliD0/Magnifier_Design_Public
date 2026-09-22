@@ -1,0 +1,44 @@
+.screen {
+  display: flex;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.content {
+  display: flex;
+  min-height: 100svh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-block: var(--site-header-height);
+  text-align: center;
+}
+
+.eyebrow {
+  margin-bottom: clamp(1.25rem, 3vw, 2.5rem);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  opacity: 0.72;
+}
+
+.headline {
+  width: 100%;
+  overflow: visible;
+  font-size: clamp(2.8rem, 8.8vw, 8.75rem);
+  font-weight: 400;
+  line-height: 0.82;
+  letter-spacing: -0.03em;
+  text-align: center;
+}
+
+.headlineLine {
+  width: max-content;
+  max-width: 100%;
+  margin-inline: auto;
+  white-space: nowrap;
+}
+
+.headlineLine + .headlineLine {
+  margin-top: -0.02em;
+}

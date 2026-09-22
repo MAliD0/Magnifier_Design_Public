@@ -41,28 +41,38 @@ npm run build
 src/
 ├── app/                 # routes, root layout, global styles
 ├── components/
-│   ├── layout/          # header, footer, page shell
-│   ├── sections/        # reusable page sections
+│   ├── layout/          # site-wide layout components
+│   ├── sections/        # reusable page sections, grouped by section
+│   │   └── <section>/
+│   │       ├── index.ts
+│   │       ├── <section>.tsx / <section>-section.tsx
+│   │       ├── <section>.module.css
+│   │       └── section-only components, hooks and types
 │   └── ui/              # reusable UI primitives
-├── data/                # typed static content before CMS integration
-├── features/            # feature-owned code
+├── data/                # typed shared/static content before CMS integration
+├── features/            # non-visual domain features spanning sections/routes
+├── hooks/               # hooks shared across multiple features
 ├── lib/                 # shared utilities
 ├── styles/              # design tokens and shared CSS
 └── types/               # shared TypeScript models
-
-public/
-└── images/              # local static imagery
 ```
 
 ## Architecture rules
 
 - Prefer Server Components. Add `"use client"` only for actual browser interaction.
-- Keep page components compositional; move reusable sections/components out of routes.
-- Keep feature-specific behavior in `features/`.
+- Keep route/page files compositional; page sections live under `components/sections/<section>/`.
+- Treat each section folder as an ownership boundary: colocate its root component, CSS Module, private subcomponents, hooks and local types.
+- Give each section a small `index.ts` public API. Consumers outside the section should import from the section folder, not its implementation files.
+- Promote code to `ui/`, `hooks/`, `types/` or `lib/` only when it is genuinely shared by multiple features.
+- Keep shared/domain content in `data/`; do not move one-off component styling or behavior there.
 - Do not introduce global state or service layers without a concrete need.
-- Store design values in shared tokens rather than scattering magic values.
+- Store reusable design values in shared tokens and frequently tuned component values in explicit config rather than scattering magic values.
 - Keep content typed so migration to a CMS is straightforward.
 - One cohesive feature or fix should normally map to one cohesive commit.
+
+## Project documentation
+
+- [Route transitions](docs/route-transitions.md) — reusable navigation animation and asset-loading strategy.
 
 ## Deployment
 

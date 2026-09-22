@@ -1,5 +1,7 @@
 "use client";
 
+import styles from "./design-process.module.css";
+import { DesignProcessMediaView } from "./design-process-media";
 import type { DesignProcessStage } from "./types";
 
 type DesignProcessAccordionProps = {
@@ -14,38 +16,34 @@ export function DesignProcessAccordion({
   onToggleStage,
 }: DesignProcessAccordionProps) {
   return (
-    <div className="border-b border-border">
+    <div className={styles.accordion}>
       {stages.map((stage, stageIndex) => {
         const open = stageIndex === openStage;
         const panelId = `design-process-panel-${stage.number}`;
         const buttonId = `design-process-trigger-${stage.number}`;
 
         return (
-          <article key={stage.number} className="border-t border-border">
+          <article key={stage.number} className={styles.stage}>
             <button
               id={buttonId}
               type="button"
               aria-expanded={open}
               aria-controls={panelId}
               onClick={() => onToggleStage(stageIndex)}
-              className={`grid w-full grid-cols-[2.5rem_minmax(0,1fr)_2rem] items-start gap-3 py-5 text-left transition-colors sm:grid-cols-[3.5rem_minmax(0,1fr)_2.5rem] sm:gap-4 sm:py-6 ${
-                open
-                  ? "text-foreground"
-                  : "text-foreground/70 hover:text-foreground"
-              }`}
+              className={styles.trigger}
+              data-open={open}
             >
-              <span className="pt-1 text-xs tabular-nums text-muted">
+              <span className={styles.stageNumber}>
                 {stage.number}
               </span>
 
               <span>
-                <span className="block text-2xl font-medium tracking-[-0.025em] sm:text-3xl">
+                <span className={styles.stageTitle}>
                   {stage.title}
                 </span>
                 <span
-                  className={`mt-1 block text-sm leading-6 transition-colors ${
-                    open ? "text-foreground/70" : "text-muted"
-                  }`}
+                  className={styles.stageSubtitle}
+                  data-open={open}
                 >
                   {stage.subtitle}
                 </span>
@@ -53,9 +51,8 @@ export function DesignProcessAccordion({
 
               <span
                 aria-hidden="true"
-                className={`justify-self-end text-3xl leading-none text-accent transition-transform duration-300 ${
-                  open ? "rotate-90" : ""
-                }`}
+                className={styles.chevron}
+                data-open={open}
               >
                 ›
               </span>
@@ -65,25 +62,51 @@ export function DesignProcessAccordion({
               id={panelId}
               role="region"
               aria-labelledby={buttonId}
-              className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out ${
-                open
-                  ? "grid-rows-[1fr] opacity-100"
-                  : "grid-rows-[0fr] opacity-0"
-              }`}
+              className={styles.panel}
+              data-open={open}
             >
-              <div className="overflow-hidden">
-                <div className="grid gap-6 pb-8 pl-[3.25rem] sm:pl-[4.5rem] lg:grid-cols-[minmax(0,1fr)_minmax(12rem,0.7fr)] lg:gap-10">
-                  <p className="max-w-2xl text-base leading-7 text-muted">
+              <div className={styles.panelClip}>
+                <div className={styles.desktopDetail}>
+                  <p className={styles.stageDescription}>
                     {stage.description}
                   </p>
 
-                  <div className="border-t border-border pt-4 lg:border-l lg:border-t-0 lg:pl-6 lg:pt-0">
-                    <p className="text-xs uppercase tracking-[0.16em] text-muted">
+                  <div className={styles.result}>
+                    <p className={styles.resultLabel}>
                       You receive
                     </p>
-                    <p className="mt-3 text-sm leading-6">
+                    <p className={styles.resultText}>
                       {stage.result}
                     </p>
+                  </div>
+                </div>
+
+                <div className={styles.mobileDetail}>
+                  <div className={styles.mobileMedia}>
+                    <DesignProcessMediaView media={stage.media} />
+                  </div>
+
+                  <div className={styles.mobileTint} />
+                  <div className={styles.mobileGradient} />
+
+                  <div className={styles.mobileCopy}>
+                    <div>
+                      <p className={styles.mobileLabel}>
+                        Stage {stage.number}
+                      </p>
+                      <p className={styles.mobileDescription}>
+                        {stage.description}
+                      </p>
+                    </div>
+
+                    <div className={styles.mobileResult}>
+                      <p className={styles.mobileLabel}>
+                        You receive
+                      </p>
+                      <p className={styles.mobileResultText}>
+                        {stage.result}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>

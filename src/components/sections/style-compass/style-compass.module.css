@@ -1,0 +1,628 @@
+.section {
+  scroll-margin-top: 6rem;
+  background: var(--background);
+  color: var(--foreground);
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
+}
+
+.layout {
+  display: grid;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.compass {
+  position: relative;
+  width: 100%;
+  max-width: 30rem;
+  min-height: 0;
+  justify-self: center;
+  overflow: visible;
+  aspect-ratio: 6 / 5;
+}
+
+.grid {
+  display: grid;
+  height: 100%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.category {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+  padding: 0;
+  text-align: left;
+  transition:
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.category[data-active="true"] {
+  z-index: 0;
+  pointer-events: none;
+  transform: scale(1);
+  box-shadow: none;
+  transition: none;
+}
+
+.category[data-active="false"]:hover,
+.category[data-active="false"]:focus-visible {
+  z-index: 10;
+  transform: scale(1.025);
+  box-shadow: 0 1.5rem 3rem rgb(0 0 0 / 25%);
+}
+
+.category:focus-visible {
+  outline: 2px solid var(--foreground);
+  outline-offset: 2px;
+}
+
+.category[data-tone="sand"] {
+  background: var(--brand-taupe-light);
+  color: var(--brand-dark);
+}
+
+.category[data-tone="sage"] {
+  background: var(--brand-premium);
+  color: var(--brand-light);
+}
+
+.category[data-tone="clay"] {
+  background: var(--brand-taupe);
+  color: var(--brand-dark);
+}
+
+.category[data-tone="stone"] {
+  background: var(--brand-dark-mid);
+  color: var(--brand-light);
+}
+
+.category[data-tone="ink"] {
+  background: var(--brand-premium-dark);
+  color: var(--brand-light);
+}
+
+.category[data-selected="true"] {
+  background: transparent;
+  color: var(--foreground);
+}
+
+.category[data-selected="true"][data-tone="ink"] {
+  color: var(--brand-light);
+}
+
+.category[data-selected="false"][data-texture="true"] {
+  border: 1px solid color-mix(in srgb, var(--foreground) 30%, transparent);
+  background: transparent;
+  color: var(--foreground);
+}
+
+.category[data-selected="false"][data-texture="true"][data-active="false"]:hover,
+.category[data-selected="false"][data-texture="true"]:focus-visible {
+  border-color: color-mix(in srgb, var(--foreground) 70%, transparent);
+}
+
+.category[data-shape="arch"] {
+  border-top-right-radius: 999px;
+}
+
+.category[data-shape="rounded"] {
+  border-bottom-right-radius: 4rem;
+}
+
+.selectedVisual {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  pointer-events: none;
+}
+
+.selectedVisual > span {
+  display: none;
+}
+
+.categoryLabel {
+  position: absolute;
+  z-index: 1;
+  bottom: 1rem;
+  left: 1rem;
+  font-size: 1rem;
+  letter-spacing: -0.03em;
+}
+
+.explorer {
+  --explorer-fg: var(--foreground);
+  --explorer-muted: color-mix(in srgb, var(--foreground) 70%, transparent);
+  --explorer-subtle: color-mix(in srgb, var(--foreground) 75%, transparent);
+  --explorer-border: color-mix(in srgb, var(--foreground) 45%, transparent);
+  --explorer-divider: color-mix(in srgb, var(--foreground) 35%, transparent);
+  --explorer-hover: color-mix(in srgb, var(--foreground) 10%, transparent);
+  --explorer-selected-bg: var(--foreground);
+  --explorer-selected-fg: var(--background);
+  --explorer-progress-idle:
+    color-mix(in srgb, var(--foreground) 25%, transparent);
+  --explorer-ui-tint:
+    color-mix(in srgb, var(--background) 22%, transparent);
+
+  position: absolute;
+  z-index: 20;
+  overflow: hidden;
+  color: var(--explorer-fg);
+  transition:
+    left var(--style-compass-explorer-transition)
+      cubic-bezier(0.22, 1, 0.36, 1),
+    top var(--style-compass-explorer-transition)
+      cubic-bezier(0.22, 1, 0.36, 1),
+    width var(--style-compass-explorer-transition)
+      cubic-bezier(0.22, 1, 0.36, 1),
+    height var(--style-compass-explorer-transition)
+      cubic-bezier(0.22, 1, 0.36, 1),
+    border-radius var(--style-compass-explorer-transition)
+      cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.explorer[data-open="false"] {
+  pointer-events: none;
+}
+
+.explorer[data-tone="ink"] {
+  --explorer-fg: var(--brand-light);
+  --explorer-muted: rgb(255 255 255 / 70%);
+  --explorer-subtle: rgb(255 255 255 / 75%);
+  --explorer-border: rgb(255 255 255 / 45%);
+  --explorer-divider: rgb(255 255 255 / 35%);
+  --explorer-hover: rgb(255 255 255 / 10%);
+  --explorer-selected-bg: white;
+  --explorer-selected-fg: var(--brand-dark);
+  --explorer-progress-idle: rgb(255 255 255 / 25%);
+  --explorer-ui-tint: rgb(0 0 0 / 18%);
+}
+
+.explorerMedia {
+  position: absolute;
+  inset: 0;
+  opacity: 1;
+  transition-property: opacity;
+  transition-timing-function: ease-out;
+}
+
+.explorerMedia[data-closing="true"] {
+  opacity: 0;
+  transition-delay: var(--style-compass-media-close-delay);
+  transition-duration: var(--style-compass-media-close-duration);
+}
+
+.explorerMedia[data-closing="false"] {
+  transition-delay: 0ms;
+  transition-duration: 0ms;
+}
+
+.explorerImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.explorerImage > span {
+  display: none;
+}
+
+.explorerCategoryLabel {
+  padding-inline: 0.35rem;
+  pointer-events: none;
+  font-size: 1rem;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+}
+
+.explorerContent {
+  position: relative;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+  opacity: 0;
+  transform: translateY(1rem);
+  transition:
+    opacity var(--style-compass-content-exit-duration) ease-out,
+    transform var(--style-compass-content-exit-duration) ease-out;
+}
+
+.explorerContent[data-open="true"] {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: var(--style-compass-content-enter-delay);
+  transition-duration: var(--style-compass-content-enter-duration);
+}
+
+.explorerEyebrow,
+.selectButton {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+}
+
+.explorerEyebrow {
+  width: fit-content;
+  padding: 0.35rem 0.5rem;
+  background: var(--explorer-ui-tint);
+  backdrop-filter: blur(4px);
+  color: var(--explorer-muted);
+  letter-spacing: 0.16em;
+}
+
+.explorerBottom {
+  padding: 0.9rem;
+  margin-bottom: 0.5rem;
+  background: var(--explorer-ui-tint);
+  backdrop-filter: blur(4px);
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.controlLabelGroup {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 0;
+  justify-content: flex-start;
+}
+
+.controlActionsGroup {
+  display: flex;
+  min-width: 0;
+  flex: 2 1 0;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.6rem;
+}
+
+.controlButton,
+.selectButton {
+  height: 2.75rem;
+  border: 1px solid var(--explorer-border);
+  user-select: none;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease,
+    border-color 180ms ease;
+}
+
+.controlButton:hover,
+.selectButton[data-selected="false"]:hover {
+  background: var(--explorer-hover);
+}
+
+.controlButton {
+  display: grid;
+  width: 2.75rem;
+  place-items: center;
+}
+
+.selectButton {
+  padding-inline: 1.25rem;
+  letter-spacing: 0.12em;
+}
+
+.selectButton[data-selected="true"] {
+  border-color: var(--explorer-selected-bg);
+  background: var(--explorer-selected-bg);
+  color: var(--explorer-selected-fg);
+}
+
+.progress {
+  --progress-fg: var(--explorer-fg);
+  --progress-muted: var(--explorer-muted);
+
+  width: 100%;
+  margin-top: 0.65rem;
+}
+
+.statusColumn {
+  order: -1;
+  max-width: 36rem;
+}
+
+.statusEyebrow {
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+
+.statusTitle {
+  max-width: 14ch;
+  margin-top: 1rem;
+  font-size: 2rem;
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+}
+
+.statusDescription {
+  max-width: 36rem;
+  margin-top: 1.25rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.5rem;
+}
+
+.statusProgress {
+  margin-top: 1.5rem;
+  padding-block: 1rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.analyzeButton {
+  padding: 0.75rem 1.25rem;
+  border: 1px solid color-mix(in srgb, var(--foreground) 20%, transparent);
+  color: color-mix(in srgb, var(--foreground) 30%, transparent);
+  cursor: not-allowed;
+  user-select: none;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.analyzeButton[data-enabled="true"] {
+  border-color: var(--foreground);
+  color: var(--foreground);
+  cursor: pointer;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+.analyzeButton[data-enabled="true"]:hover {
+  background: var(--foreground);
+  color: var(--background);
+}
+
+.reviewButton {
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--foreground) 65%, transparent);
+  user-select: none;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  transition: opacity 180ms ease;
+}
+
+.reviewButton:hover {
+  opacity: 0.6;
+}
+
+.note {
+  margin-top: 1.25rem;
+  color: var(--muted);
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .category,
+  .explorer,
+  .explorerMedia,
+  .explorerContent {
+    transition: none;
+  }
+}
+
+@media (min-width: 48rem) {
+  .layout {
+    grid-template-columns: minmax(0, 0.9fr) minmax(16rem, 1.1fr);
+    align-items: center;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+    margin-top: 2.5rem;
+  }
+
+  .compass {
+    max-width: none;
+    justify-self: stretch;
+  }
+
+  .statusColumn {
+    order: 0;
+    max-width: 32rem;
+    padding-left: 0.5rem;
+  }
+
+
+  .category[data-shape="rounded"] {
+    border-bottom-right-radius: 4rem;
+  }
+
+  .categoryLabel {
+    bottom: 1rem;
+    left: 1rem;
+    font-size: 1.05rem;
+  }
+
+  .explorerCategoryLabel {
+    font-size: 1.05rem;
+  }
+
+  .explorerContent {
+    padding: 1rem;
+  }
+
+  .explorerBottom {
+    padding: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .controlButton,
+  .selectButton {
+    height: 2.75rem;
+  }
+
+  .controlButton {
+    width: 2.75rem;
+  }
+
+  .selectButton {
+    padding-inline: 1.1rem;
+    font-size: 0.62rem;
+  }
+
+  .progress {
+    margin-top: 0.6rem;
+  }
+
+  .statusTitle {
+    max-width: 13ch;
+    margin-top: 1rem;
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+  }
+
+  .statusDescription {
+    margin-top: 1rem;
+    font-size: 0.78rem;
+    line-height: 1.4rem;
+  }
+
+  .statusProgress {
+    margin-top: 1.25rem;
+    padding-block: 0.9rem;
+  }
+
+  .actions {
+    gap: 0.9rem;
+    margin-top: 1.1rem;
+  }
+
+  .analyzeButton {
+    padding: 0.65rem 0.9rem;
+    font-size: 0.65rem;
+  }
+
+  .reviewButton,
+  .note {
+    font-size: 0.68rem;
+  }
+
+  .note {
+    margin-top: 1rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  .layout {
+    grid-template-columns: minmax(0, 0.92fr) minmax(20rem, 1.08fr);
+    gap: 2.5rem;
+  }
+
+  .statusColumn {
+    max-width: 42rem;
+    padding-left: 1rem;
+  }
+
+
+  .category[data-shape="rounded"] {
+    border-bottom-right-radius: 5.5rem;
+  }
+
+  .categoryLabel {
+    bottom: 1.5rem;
+    left: 1.5rem;
+    font-size: 1.5rem;
+  }
+
+  .explorerCategoryLabel {
+    font-size: 1.125rem;
+  }
+
+  .explorerContent {
+    padding: 1.5rem;
+  }
+
+  .explorerBottom {
+    padding: 1.1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .controlButton,
+  .selectButton {
+    height: 3.25rem;
+  }
+
+  .controlButton {
+    width: 3.25rem;
+  }
+
+  .selectButton {
+    padding-inline: 1.4rem;
+    font-size: 0.7rem;
+  }
+
+  .progress {
+    margin-top: 0.75rem;
+  }
+
+  .statusTitle {
+    max-width: 12ch;
+    margin-top: 1.25rem;
+    font-size: 3rem;
+  }
+
+  .statusDescription {
+    margin-top: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.75rem;
+  }
+
+  .statusProgress {
+    margin-top: 2rem;
+    padding-block: 1.25rem;
+  }
+
+  .actions {
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .analyzeButton {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.75rem;
+  }
+
+  .reviewButton,
+  .note {
+    font-size: 0.75rem;
+  }
+
+  .note {
+    margin-top: 1.25rem;
+  }
+}
+
+@media (min-width: 80rem) {
+  .layout {
+    gap: 4rem;
+  }
+
+  .statusTitle {
+    font-size: 3.75rem;
+  }
+}

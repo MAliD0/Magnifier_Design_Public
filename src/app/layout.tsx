@@ -1,9 +1,20 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 
+import { ViewportDebugHud } from "@/components/dev/viewport-debug-hud";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
+import { MagnifierRouteTransition } from "@/components/transitions/magnifier-route-transition";
+import { SmoothScroll } from "@/components/system/smooth-scroll";
+import {
+  fallbackRouteTransitionContent,
+  routeTransitionContent,
+} from "@/data/route-transitions";
 import { siteConfig } from "@/data/site";
+import {
+  RouteTransitionProvider,
+  RouteTransitionStage,
+} from "@/features/route-transition";
 
 import "./globals.css";
 
@@ -108,9 +119,21 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <Header />
-        <main>{children}</main>
-        <Footer />
+        <SmoothScroll />
+
+        <RouteTransitionProvider
+          contentByPath={routeTransitionContent}
+          fallbackContent={fallbackRouteTransitionContent}
+        >
+          <RouteTransitionStage mediaFill="var(--premium)">
+            <Header />
+            <main>{children}</main>
+            <Footer />
+          </RouteTransitionStage>
+
+          <MagnifierRouteTransition />
+          <ViewportDebugHud />
+        </RouteTransitionProvider>
       </body>
     </html>
   );

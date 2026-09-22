@@ -1,0 +1,393 @@
+.section {
+  scroll-margin-top: 6rem;
+}
+
+.sectionContent {
+  margin-top: 2.5rem;
+}
+
+.layout {
+  display: grid;
+  gap: 2.5rem;
+}
+
+.desktopMedia {
+  display: none;
+}
+
+.mediaFrame {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.mediaLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(1.015);
+  transition:
+    opacity var(--design-process-media-transition) ease-out,
+    transform var(--design-process-media-transition) ease-out;
+}
+
+.mediaLayer[data-active="true"] {
+  pointer-events: auto;
+  opacity: 1;
+  transform: scale(1);
+}
+
+.mediaImage {
+  object-fit: cover;
+}
+
+.mediaPlaceholder {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.mediaPlaceholder > span {
+  display: none;
+}
+
+.mediaGradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgb(0 0 0 / 70%),
+    rgb(0 0 0 / 15%),
+    rgb(0 0 0 / 5%)
+  );
+}
+
+.mediaHeader {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem;
+  color: rgb(255 255 255 / 75%);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.mediaCopy {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  padding: 1.25rem;
+  color: white;
+}
+
+.mediaLead {
+  max-width: 24ch;
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.mediaDescription {
+  max-width: 36rem;
+  margin-top: 1rem;
+  color: rgb(255 255 255 / 75%);
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+}
+
+.accordion {
+  border-bottom: 1px solid var(--border);
+}
+
+.stage {
+  border-top: 1px solid var(--border);
+}
+
+.trigger {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 2.5rem minmax(0, 1fr) 2rem;
+  align-items: start;
+  gap: 0.75rem;
+  padding-block: 1.25rem;
+  color: color-mix(in srgb, var(--foreground) 70%, transparent);
+  text-align: left;
+  transition: color 180ms ease;
+}
+
+.trigger:hover,
+.trigger[data-open="true"] {
+  color: var(--foreground);
+}
+
+.stageNumber {
+  padding-top: 0.25rem;
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.stageTitle {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.stageSubtitle {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--muted);
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+  transition: color 180ms ease;
+}
+
+.stageSubtitle[data-open="true"] {
+  color: color-mix(in srgb, var(--foreground) 70%, transparent);
+}
+
+.chevron {
+  justify-self: end;
+  color: var(--accent);
+  font-size: 1.5rem;
+  line-height: 1;
+  transition: transform var(--design-process-accordion-transition) ease;
+}
+
+.chevron[data-open="true"] {
+  transform: rotate(90deg);
+}
+
+.panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows var(--design-process-accordion-transition) ease-out,
+    opacity var(--design-process-accordion-transition) ease-out;
+}
+
+.panel[data-open="true"] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.panelClip {
+  overflow: hidden;
+}
+
+.desktopDetail {
+  display: none;
+}
+
+.mobileDetail {
+  position: relative;
+  min-height: 20rem;
+  overflow: hidden;
+}
+
+.mobileMedia,
+.mobileTint,
+.mobileGradient {
+  position: absolute;
+  inset: 0;
+}
+
+.mobileTint {
+  background: rgb(0 0 0 / 60%);
+}
+
+.mobileGradient {
+  background: linear-gradient(
+    to top,
+    rgb(0 0 0 / 70%),
+    rgb(0 0 0 / 30%),
+    rgb(0 0 0 / 20%)
+  );
+}
+
+.mobileCopy {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  min-height: 20rem;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 1.75rem;
+  padding: 1.25rem;
+  color: white;
+}
+
+.mobileLabel {
+  color: rgb(255 255 255 / 60%);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.mobileDescription,
+.mobileResultText {
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+}
+
+.mobileDescription {
+  color: rgb(255 255 255 / 85%);
+}
+
+.mobileResult {
+  padding-top: 1rem;
+  border-top: 1px solid rgb(255 255 255 / 25%);
+}
+
+.mobileResultText {
+  color: rgb(255 255 255 / 90%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mediaLayer,
+  .chevron,
+  .panel {
+    transition: none;
+  }
+}
+
+@media (min-width: 40rem) {
+  .mediaHeader,
+  .mediaCopy {
+    padding-inline: 1.5rem;
+  }
+
+  .mediaHeader {
+    padding-block: 1.5rem;
+  }
+
+  .mediaCopy {
+    padding-block: 1.5rem;
+  }
+
+  .mediaLead {
+    font-size: 1.5rem;
+  }
+
+  .mediaDescription {
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+  }
+
+  .trigger {
+    grid-template-columns: 3.5rem minmax(0, 1fr) 2.5rem;
+    gap: 1rem;
+    padding-block: 1.5rem;
+  }
+
+  .stageTitle {
+    font-size: 1.5rem;
+  }
+
+  .stageSubtitle {
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+  }
+}
+
+@media (min-width: 48rem) {
+  .layout {
+    grid-template-columns: minmax(16rem, 0.9fr) minmax(0, 1.1fr);
+    align-items: start;
+    gap: 2.5rem;
+  }
+
+  .desktopMedia {
+    position: sticky;
+    top: 6rem;
+    display: block;
+  }
+
+  .mediaFrame {
+    height: min(68svh, 40rem);
+    min-height: 28rem;
+  }
+
+  .desktopDetail {
+    display: grid;
+    gap: 1.5rem;
+    padding: 0 0 2rem 4.5rem;
+  }
+
+  .stageDescription {
+    max-width: 42rem;
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1.75rem;
+  }
+
+  .result {
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .resultLabel {
+    color: var(--muted);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+  }
+
+  .resultText {
+    margin-top: 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+  }
+
+  .mobileDetail {
+    display: none;
+  }
+}
+
+@media (min-width: 64rem) {
+  .layout {
+    grid-template-columns: minmax(18rem, 0.9fr) minmax(0, 1.1fr);
+    gap: 3.5rem;
+  }
+
+  .mediaFrame {
+    height: min(72svh, 46rem);
+    min-height: 34rem;
+  }
+
+  .mediaCopy {
+    padding: 2rem;
+  }
+
+  .desktopDetail {
+    grid-template-columns: minmax(0, 1fr) minmax(12rem, 0.7fr);
+    gap: 2.5rem;
+  }
+
+  .result {
+    padding-top: 0;
+    padding-left: 1.5rem;
+    border-top: 0;
+    border-left: 1px solid var(--border);
+  }
+}
+
+@media (min-width: 80rem) {
+  .layout {
+    gap: 5rem;
+  }
+
+  .mediaLead {
+    font-size: 1.875rem;
+  }
+}

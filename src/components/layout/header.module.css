@@ -1,0 +1,239 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  color: var(--foreground);
+  will-change: transform;
+  transition:
+    transform var(--header-hide-transition)
+      cubic-bezier(0.22, 1, 0.36, 1),
+    color 240ms ease;
+}
+
+.header[data-hidden="true"] {
+  transform: translateY(-100%);
+}
+
+.header[data-section-ready="false"],
+.header[data-section-ready="false"] .surface,
+.header[data-section-ready="false"] .primaryRow,
+.header[data-section-ready="false"] .mobileNavigation {
+  transition: none;
+}
+
+.header[data-variant="transparent"] {
+  --foreground: var(--brand-light);
+  --border: transparent;
+}
+
+.revealLogo,
+.revealNavigation,
+.revealActions {
+  opacity: 0;
+  animation: revealHeaderContent
+    var(--header-content-reveal-duration)
+    linear
+    forwards;
+}
+
+.revealLogo {
+  animation-delay: var(--header-content-reveal-delay);
+}
+
+.revealNavigation {
+  animation-delay: calc(
+    var(--header-content-reveal-delay) +
+    var(--header-content-reveal-stagger)
+  );
+}
+
+.revealActions {
+  animation-delay: calc(
+    var(--header-content-reveal-delay) +
+    var(--header-content-reveal-stagger) +
+    var(--header-content-reveal-stagger)
+  );
+}
+
+@keyframes revealHeaderContent {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.surface {
+  position: relative;
+  z-index: 20;
+  background: var(--background);
+  transition: background-color 240ms ease;
+}
+
+.header[data-variant="transparent"] .surface {
+  background: transparent;
+}
+
+.primaryRow {
+  display: grid;
+  height: 5rem;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  border-bottom: 1px solid var(--border);
+  transition: border-color 240ms ease;
+}
+
+.logo {
+  position: relative;
+  display: flex;
+  width: 9rem;
+  height: 2.25rem;
+  align-items: center;
+  overflow: hidden;
+}
+
+.logoImage {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: auto;
+  transform: translateY(-50%);
+}
+
+.logoLight {
+  display: none;
+}
+
+:global(:root[data-theme="dark"]) .logoDark {
+  display: none;
+}
+
+:global(:root[data-theme="dark"]) .logoLight {
+  display: block;
+}
+
+.header[data-variant="transparent"] .logoDark {
+  display: none;
+}
+
+.header[data-variant="transparent"] .logoLight {
+  display: block;
+}
+
+.desktopNavigation {
+  display: none;
+  min-width: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.navigationLink,
+.mobileNavigationLink {
+  flex-shrink: 0;
+}
+
+.navigationLink {
+  transition: opacity 180ms ease;
+}
+
+.navigationLink:hover {
+  opacity: 0.55;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-self: end;
+  gap: 1rem;
+}
+
+.contactLink {
+  display: none;
+  height: 2.25rem;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.mobileNavigation {
+  display: flex;
+  gap: 1.25rem;
+  overflow-x: auto;
+  padding-block: 0.75rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  scrollbar-width: none;
+  transition: border-color 240ms ease;
+}
+
+.mobileNavigation::-webkit-scrollbar {
+  display: none;
+}
+
+.mobileContactLink {
+  font-weight: 500;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header,
+  .surface,
+  .primaryRow,
+  .mobileNavigation {
+    transition: none;
+  }
+
+  .revealLogo,
+  .revealNavigation,
+  .revealActions {
+    opacity: 1;
+    animation: none;
+  }
+}
+
+@media (min-width: 40rem) {
+  .logo {
+    width: 10rem;
+  }
+}
+
+@media (min-width: 48rem) {
+  .desktopNavigation {
+    display: flex;
+  }
+
+  .mobileSurface {
+    display: none;
+  }
+}
+
+@media (min-width: 64rem) {
+  .primaryRow {
+    gap: 1.5rem;
+  }
+
+  .desktopNavigation {
+    gap: 1.5rem;
+  }
+
+  .contactLink {
+    display: inline-flex;
+  }
+}
+
+@media (min-width: 80rem) {
+  .desktopNavigation {
+    gap: 2rem;
+  }
+}

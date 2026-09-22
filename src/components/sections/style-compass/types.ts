@@ -15,11 +15,16 @@ export type StyleCompassOption = {
   tone: PlaceholderTone;
 };
 
+export type StyleCompassShape =
+  | "square"
+  | "arch"
+  | "rounded";
+
 export type StyleCompassCategory = {
   id: StyleCompassCategoryId;
   label: string;
   tone: PlaceholderTone;
-  shapeClassName: string;
+  shape: StyleCompassShape;
   options: readonly [StyleCompassOption, ...StyleCompassOption[]];
 };
 

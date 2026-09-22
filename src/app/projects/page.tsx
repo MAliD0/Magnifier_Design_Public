@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { ProjectGallerySection } from "@/components/sections/project-gallery-section";
+import { ProjectGallerySection } from "@/components/sections/project-gallery";
 import { PageIntro } from "@/components/ui/page-intro";
 import { projects } from "@/data/projects";
 

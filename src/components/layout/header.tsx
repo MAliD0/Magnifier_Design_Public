@@ -2,92 +2,65 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import type { CSSProperties } from "react";
 
 import { Container } from "@/components/ui/container";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { headerConfig } from "@/data/header";
 import { siteConfig } from "@/data/site";
+import { useActiveSection } from "@/hooks/use-active-section";
 
-const TOP_REVEAL_OFFSET = 16;
-const DIRECTION_THRESHOLD = 6;
+import styles from "./header.module.css";
+import { useHeaderScrollVisibility } from "./use-header-scroll-visibility";
+
+type HeaderCssVariables = CSSProperties & {
+  "--header-hide-transition": string;
+  "--header-content-reveal-delay": string;
+  "--header-content-reveal-duration": string;
+  "--header-content-reveal-stagger": string;
+};
+
+const headerStyle: HeaderCssVariables = {
+  "--header-hide-transition":
+    `${headerConfig.hideTransitionMs}ms`,
+  "--header-content-reveal-delay":
+    `${headerConfig.contentRevealDelayMs}ms`,
+  "--header-content-reveal-duration":
+    `${headerConfig.contentRevealDurationMs}ms`,
+  "--header-content-reveal-stagger":
+    `${headerConfig.contentRevealStaggerMs}ms`,
+};
 
 export function Header() {
-  const [hidden, setHidden] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const hidden = useHeaderScrollVisibility();
+  const { activeSection, isResolved } = useActiveSection({
+    activationPointPercent:
+      headerConfig.sectionActivationPointPercent,
+  });
 
-  useEffect(() => {
-    let lastScrollY = window.scrollY;
-    let frameId: number | null = null;
-
-    function updateHeader() {
-      const currentScrollY = Math.max(window.scrollY, 0);
-      const delta = currentScrollY - lastScrollY;
-
-      if (menuOpen || currentScrollY <= TOP_REVEAL_OFFSET) {
-        setHidden(false);
-        lastScrollY = currentScrollY;
-      } else if (delta >= DIRECTION_THRESHOLD) {
-        setHidden(true);
-        lastScrollY = currentScrollY;
-      } else if (delta <= -DIRECTION_THRESHOLD) {
-        setHidden(false);
-        lastScrollY = currentScrollY;
-      }
-
-      frameId = null;
-    }
-
-    function handleScroll() {
-      if (frameId === null) {
-        frameId = window.requestAnimationFrame(updateHeader);
-      }
-    }
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-
-      if (frameId !== null) {
-        window.cancelAnimationFrame(frameId);
-      }
-    };
-  }, [menuOpen]);
-
-  useEffect(() => {
-    if (!menuOpen) {
-      return;
-    }
-
-    function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") {
-        setMenuOpen(false);
-      }
-    }
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [menuOpen]);
-
-  function closeMenu() {
-    setMenuOpen(false);
-  }
+  const initialVariant =
+    pathname === "/" ? "transparent" : "default";
+  const variant = isResolved
+    ? activeSection?.headerVariant ?? "default"
+    : initialVariant;
 
   return (
     <header
-      className={`sticky top-0 z-40 will-change-transform transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none ${
-        hidden ? "-translate-y-full" : "translate-y-0"
-      }`}
+      className={styles.header}
+      data-hidden={hidden}
+      data-variant={variant}
+      data-section-ready={isResolved}
+      data-active-section={activeSection?.id}
+      style={headerStyle}
     >
-      <div className="relative z-20 bg-background">
-        <Container className="grid h-20 grid-cols-[1fr_auto] items-center gap-5 border-b border-border md:grid-cols-3">
+      <div className={styles.surface}>
+        <Container className={styles.primaryRow}>
           <Link
             href="/"
             aria-label={`${siteConfig.name} home`}
-            className="block w-32 sm:w-36"
+            className={`${styles.logo} ${styles.revealLogo}`}
           >
             <span className="sr-only">{siteConfig.name}</span>
 
@@ -99,7 +72,7 @@ export function Header() {
               priority
               unoptimized
               aria-hidden="true"
-              className="h-auto w-full dark:hidden"
+              className={`${styles.logoImage} ${styles.logoDark}`}
             />
             <Image
               src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/brand/magnifier-logo-light.svg`}
@@ -109,25 +82,30 @@ export function Header() {
               priority
               unoptimized
               aria-hidden="true"
-              className="hidden h-auto w-full dark:block"
+              className={`${styles.logoImage} ${styles.logoLight}`}
             />
           </Link>
 
-          <button
-            type="button"
-            aria-expanded={menuOpen}
-            aria-controls="header-menu-panel"
-            onClick={() => setMenuOpen((open) => !open)}
-            className="hidden justify-self-center select-none text-xs uppercase tracking-[0.16em] md:block"
+          <nav
+            aria-label="Primary navigation"
+            className={`${styles.desktopNavigation} ${styles.revealNavigation}`}
           >
-            Menu
-          </button>
+            {siteConfig.navigation.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={styles.navigationLink}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
 
-          <div className="flex items-center justify-self-end gap-5">
+          <div className={`${styles.actions} ${styles.revealActions}`}>
             <ThemeToggle />
             <Link
               href="/contact"
-              className="hidden text-xs font-medium uppercase tracking-[0.12em] sm:inline"
+              className={styles.contactLink}
             >
               Tell us about your project
             </Link>
@@ -135,64 +113,25 @@ export function Header() {
         </Container>
       </div>
 
-      <div
-        className={`absolute inset-x-0 top-20 z-10 hidden md:block ${
-          menuOpen ? "pointer-events-auto" : "pointer-events-none"
-        }`}
-        aria-hidden={!menuOpen}
-      >
-        <div
-          id="header-menu-panel"
-          className={`border-b border-border bg-background will-change-transform transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none ${
-            menuOpen ? "translate-y-0" : "-translate-y-full"
-          }`}
-        >
-          <Container className="grid gap-10 py-10 md:grid-cols-2">
-            <nav aria-label="Primary navigation">
-              <ul className="space-y-2">
-                {siteConfig.navigation.map((item) => (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      onClick={closeMenu}
-                      className="text-3xl font-medium tracking-[-0.03em] transition-opacity hover:opacity-55"
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-
-            <div className="flex flex-col justify-between gap-8 border-t border-border pt-4 md:border-l md:border-t-0 md:pl-8 md:pt-0">
-              <p className="max-w-sm text-sm leading-6 text-muted">
-                Prototype menu area for service routes, contact details and
-                future navigation refinements.
-              </p>
-              <Link
-                href="/contact"
-                onClick={closeMenu}
-                className="text-sm font-medium uppercase tracking-[0.12em]"
-              >
-                Tell us about your project →
-              </Link>
-            </div>
-          </Container>
-        </div>
-      </div>
-
-      <div className="relative z-20 bg-background md:hidden">
+      <div className={`${styles.surface} ${styles.mobileSurface}`}>
         <Container>
           <nav
             aria-label="Primary navigation"
-            className="flex gap-5 overflow-x-auto border-b border-border py-3 text-xs uppercase tracking-[0.12em]"
+            className={`${styles.mobileNavigation} ${styles.revealNavigation}`}
           >
             {siteConfig.navigation.map((item) => (
-              <Link key={item.href} href={item.href} className="shrink-0">
+              <Link
+                key={item.href}
+                href={item.href}
+                className={styles.mobileNavigationLink}
+              >
                 {item.label}
               </Link>
             ))}
-            <Link href="/contact" className="shrink-0 font-medium">
+            <Link
+              href="/contact"
+              className={`${styles.mobileNavigationLink} ${styles.mobileContactLink}`}
+            >
               Tell us about your project
             </Link>
           </nav>

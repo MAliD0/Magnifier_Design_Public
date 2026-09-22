@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { PageIntro } from "@/components/ui/page-intro";
+import { ContactForm } from "@/features/contact";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -9,11 +9,5 @@ export const metadata: Metadata = {
 };
 
 export default function ContactPage() {
-  return (
-    <PageIntro
-      eyebrow="Start a project"
-      title="Contact"
-      description="Project inquiry details and the contact form will be added once the required fields and submission flow are approved."
-    />
-  );
+  return <ContactForm />;
 }

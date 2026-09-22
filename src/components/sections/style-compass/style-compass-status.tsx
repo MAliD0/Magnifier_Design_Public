@@ -1,5 +1,7 @@
+import { ProgressBar } from "@/components/ui/progress-bar";
 import { styleCompassCategories } from "@/data/style-compass";
 
+import styles from "./style-compass.module.css";
 import type {
   StyleCompassSelections,
   StyleCompassStatus,
@@ -38,51 +40,44 @@ export function StyleCompassStatus({
   status,
 }: StyleCompassStatusProps) {
   const stateCopy = copy[status];
+  const completedIndices = styleCompassCategories.flatMap(
+    (category, index) =>
+      selections[category.id] ? [index] : [],
+  );
+  const currentIndex = Math.min(
+    selectedCount,
+    styleCompassCategories.length - 1,
+  );
 
   return (
     <>
-      <p className="text-[0.68rem] font-medium uppercase tracking-[0.16em] text-muted">
+      <p className={styles.statusEyebrow}>
         Magnifier Style Compass
       </p>
 
-      <h2 className="mt-5 max-w-[12ch] text-4xl font-normal leading-[1.02] tracking-[-0.035em] sm:text-5xl xl:text-6xl">
+      <h2 className={styles.statusTitle}>
         {stateCopy.title}
       </h2>
 
-      <p className="mt-6 max-w-xl text-sm leading-7 text-muted sm:text-base">
+      <p className={styles.statusDescription}>
         {stateCopy.description}
       </p>
 
-      <div className="mt-8 border-y border-border py-5">
-        <div className="flex items-center justify-between gap-4">
-          <p className="text-[0.65rem] uppercase tracking-[0.14em] text-muted">
-            {stateCopy.progressLabel}
-          </p>
-          <p className="text-xs tabular-nums text-muted">
-            {String(selectedCount).padStart(2, "0")} / 04
-          </p>
-        </div>
-
-        <div
-          className="mt-4 grid grid-cols-4 gap-1.5"
-          aria-label={
+      <div className={styles.statusProgress}>
+        <ProgressBar
+          currentIndex={currentIndex}
+          totalItems={styleCompassCategories.length}
+          completedIndices={completedIndices}
+          ariaLabel={
             String(selectedCount) +
             " of 4 Style Compass fields selected"
           }
-        >
-          {styleCompassCategories.map((category) => (
-            <span
-              key={category.id}
-              className={
-                selections[category.id]
-                  ? "h-0.5 bg-foreground transition-colors duration-300"
-                  : "h-0.5 bg-foreground/20 transition-colors duration-300"
-              }
-            />
-          ))}
-        </div>
+          startLabel={stateCopy.progressLabel}
+          endLabel={
+            String(selectedCount).padStart(2, "0") + " / 04"
+          }
+        />
       </div>
-
     </>
   );
 }

@@ -35,6 +35,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Restore mirror binary assets
+        shell: bash
+        run: |
+          mkdir -p public/media
+          cat .mirror-export/hero.b64.part-* | base64 -d > public/media/hero.mp4
+          test "$(wc -c < public/media/hero.mp4)" = "$(cat .mirror-export/hero.size)"
+          test "$(sha1sum public/media/hero.mp4 | awk '{print $1}')" = "$(cat .mirror-export/hero.sha1)"
+
       - name: Build static export
         run: npm run build
 

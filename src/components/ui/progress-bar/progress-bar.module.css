@@ -1,0 +1,122 @@
+.root {
+  --progress-bar-fg: var(--progress-fg, var(--foreground));
+  --progress-bar-muted: var(--progress-muted, var(--muted));
+  --progress-bar-idle:
+    color-mix(in srgb, var(--progress-bar-fg) 16%, transparent);
+  --progress-bar-complete:
+    color-mix(in srgb, var(--progress-bar-fg) 48%, transparent);
+
+  width: 100%;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--progress-bar-muted);
+  font-size: 0.7rem;
+  font-variant-numeric: tabular-nums;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.track {
+  position: relative;
+  padding-block: 0.2rem;
+}
+
+.track[data-has-meta="true"] {
+  margin-top: 0.8rem;
+}
+
+.items {
+  display: grid;
+  grid-template-columns:
+    repeat(var(--progress-count), minmax(0, 1fr));
+  gap: var(--progress-gap);
+}
+
+.item,
+.itemButton {
+  display: flex;
+  min-width: 0;
+  height: 1.1rem;
+  align-items: center;
+}
+
+.itemButton {
+  width: 100%;
+  cursor: pointer;
+  user-select: none;
+}
+
+.segment {
+  display: block;
+  width: 100%;
+  height: var(--progress-segment-height);
+  border-radius: 999px;
+  background: var(--progress-bar-idle);
+  transition:
+    background-color 280ms ease,
+    opacity 180ms ease;
+}
+
+.segment[data-complete="true"] {
+  background: var(--progress-bar-complete);
+}
+
+.itemButton:hover .segment {
+  background: color-mix(
+    in srgb,
+    var(--progress-bar-fg) 68%,
+    transparent
+  );
+}
+
+.activeIndicator {
+  position: absolute;
+  top: 50%;
+  left: var(--progress-indicator-left);
+  right: var(--progress-indicator-right);
+  height: var(--progress-active-height);
+  border-radius: 999px;
+  pointer-events: none;
+  background: var(--progress-bar-fg);
+  transform: translateY(-50%);
+  transition:
+    left var(--progress-motion-duration)
+      var(--progress-leading-easing),
+    right var(--progress-motion-duration)
+      var(--progress-leading-easing);
+  will-change: left, right;
+}
+
+.track[data-direction="forward"] .activeIndicator {
+  transition:
+    right var(--progress-motion-duration)
+      var(--progress-leading-easing),
+    left var(--progress-motion-duration)
+      var(--progress-trailing-easing);
+}
+
+.track[data-direction="backward"] .activeIndicator {
+  transition:
+    left var(--progress-motion-duration)
+      var(--progress-leading-easing),
+    right var(--progress-motion-duration)
+      var(--progress-trailing-easing);
+}
+
+.track[data-has-current="false"] .activeIndicator {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .segment,
+  .activeIndicator,
+  .track[data-direction="forward"] .activeIndicator,
+  .track[data-direction="backward"] .activeIndicator {
+    transition: none;
+  }
+}

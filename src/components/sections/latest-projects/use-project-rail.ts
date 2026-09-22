@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useRef } from "react";
 
+import { latestProjectsConfig } from "@/data/home";
+
 import type { LatestProjectItem } from "./types";
 
 export type RailProject = {
@@ -15,9 +17,10 @@ type ProgrammaticTarget = {
   renderIndex: number;
 };
 
-const RAIL_COPY_COUNT = 5;
+const RAIL_COPY_COUNT = latestProjectsConfig.railCopyCount;
 const CENTER_COPY_INDEX = Math.floor(RAIL_COPY_COUNT / 2);
-const SCROLL_SETTLE_DELAY_MS = 180;
+const SCROLL_SETTLE_DELAY_MS =
+  latestProjectsConfig.scrollSettleDelayMs;
 
 type UseProjectRailArgs = {
   projects: readonly LatestProjectItem[];

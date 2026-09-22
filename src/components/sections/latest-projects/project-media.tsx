@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import { PlaceholderImage } from "@/components/ui/placeholder-image";
 
+import styles from "./latest-projects.module.css";
 import type { LatestProjectMedia } from "./types";
 
 type ProjectMediaProps = {
@@ -11,20 +12,19 @@ type ProjectMediaProps = {
 
 export function ProjectMedia({ media, selected }: ProjectMediaProps) {
   const stateClass = selected
-    ? "scale-100 opacity-100"
-    : "scale-[0.975] opacity-55 group-hover:opacity-85";
+    ? styles.mediaSelected
+    : styles.mediaIdle;
+  const mediaClass = `${styles.media} ${stateClass}`;
 
   if (media.kind === "image") {
     return (
-      <div
-        className={`relative aspect-[5/4] lg:aspect-[4/5] overflow-hidden transition-[transform,opacity] duration-500 ${stateClass}`}
-      >
+      <div className={mediaClass} data-transition-media>
         <Image
           src={media.src}
           alt={media.alt}
           fill
           sizes="(min-width: 1280px) 22vw, (min-width: 1024px) 26vw, (min-width: 640px) 42vw, 72vw"
-          className="object-cover"
+          className={styles.mediaImage}
         />
       </div>
     );
@@ -34,7 +34,7 @@ export function ProjectMedia({ media, selected }: ProjectMediaProps) {
     <PlaceholderImage
       label={media.label}
       tone={media.tone}
-      className={`aspect-[5/4] lg:aspect-[4/5] transition-[transform,opacity] duration-500 ${stateClass}`}
+      className={mediaClass}
     />
   );
 }

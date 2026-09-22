@@ -1,9 +1,9 @@
-import { ContactCtaSection } from "@/components/sections/contact-cta-section";
-import { DesignProcessSection } from "@/components/sections/design-process-section";
+import { ContactCtaSection } from "@/components/sections/contact-cta";
+import { DesignProcessSection } from "@/components/sections/design-process";
 import { HomeHero } from "@/components/sections/home-hero";
 import { LatestProjects } from "@/components/sections/latest-projects";
-import { ServicesSection } from "@/components/sections/services-section";
-import { StyleCompassSection } from "@/components/sections/style-compass-section";
+import { ServicesSection } from "@/components/sections/services";
+import { StyleCompassSection } from "@/components/sections/style-compass";
 import {
   designProcessStages,
   homeServices,
@@ -18,7 +18,7 @@ export default function HomePage() {
       <LatestProjects
         projects={homeLatestProjects}
         index="01"
-        title="Latest Projects"
+        title="Projects"
       />
 
       <ServicesSection

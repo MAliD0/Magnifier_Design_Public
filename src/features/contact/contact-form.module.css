@@ -1,0 +1,72 @@
+.section {
+  min-height: calc(100svh - var(--site-header-height));
+  padding-block: clamp(3rem, 7vw, 7rem);
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.container {
+  width: min(
+    calc(100% - (2 * var(--page-gutter))),
+    52rem
+  );
+  margin-inline: auto;
+}
+
+.progress {
+  width: 100%;
+}
+
+.workspace {
+  margin-top: clamp(2.5rem, 6vw, 5rem);
+}
+
+.fieldGroup {
+  display: grid;
+  gap: 1rem;
+}
+
+.fieldGroup[data-field-count="2"] {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.stepNavigation {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.stepButton {
+  min-width: 8.5rem;
+  min-height: 3.5rem;
+  padding: 0.9rem 1.4rem;
+  border: 1px solid var(--border);
+  color: var(--foreground);
+  font-size: 0.82rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease,
+    border-color 180ms ease,
+    opacity 180ms ease;
+}
+
+.stepButton:not(:disabled):hover {
+  border-color: var(--foreground);
+  background: var(--foreground);
+  color: var(--background);
+}
+
+.stepButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.22;
+}
+
+@media (max-width: 40rem) {
+  .fieldGroup[data-field-count="2"] {
+    grid-template-columns: 1fr;
+  }
+}

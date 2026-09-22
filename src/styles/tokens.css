@@ -40,6 +40,7 @@
   --content-max-width: 96rem;
   --page-gutter: clamp(1.25rem, 3vw, 3rem);
   --section-space: clamp(5rem, 9vw, 10rem);
+  --site-header-height: 7.5rem;
 }
 
 :root[data-theme="dark"] {
@@ -62,4 +63,10 @@
   --image-stone: var(--brand-dark-mid);
   --image-ink: var(--brand-premium-dark);
   --image-ink-foreground: var(--brand-light);
+}
+
+@media (min-width: 48rem) {
+  :root {
+    --site-header-height: 5rem;
+  }
 }

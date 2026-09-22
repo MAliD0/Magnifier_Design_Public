@@ -5,7 +5,7 @@ export const styleCompassCategories = [
     id: "colour",
     label: "Colour",
     tone: "sand",
-    shapeClassName: "",
+    shape: "square",
     options: [
       { id: "colour_01", label: "Colour direction 01", tone: "sand" },
       { id: "colour_02", label: "Colour direction 02", tone: "clay" },
@@ -17,7 +17,7 @@ export const styleCompassCategories = [
     id: "form",
     label: "Form",
     tone: "stone",
-    shapeClassName: "rounded-tr-[999px]",
+    shape: "arch",
     options: [
       { id: "form_01", label: "Form direction 01", tone: "stone" },
       { id: "form_02", label: "Form direction 02", tone: "ink" },
@@ -29,7 +29,7 @@ export const styleCompassCategories = [
     id: "texture",
     label: "Texture",
     tone: "ink",
-    shapeClassName: "",
+    shape: "square",
     options: [
       { id: "texture_01", label: "Texture direction 01", tone: "ink" },
       { id: "texture_02", label: "Texture direction 02", tone: "stone" },
@@ -41,7 +41,7 @@ export const styleCompassCategories = [
     id: "feeling",
     label: "Feeling",
     tone: "sage",
-    shapeClassName: "rounded-br-[4rem] sm:rounded-br-[5.5rem]",
+    shape: "rounded",
     options: [
       { id: "feeling_01", label: "Feeling direction 01", tone: "sage" },
       { id: "feeling_02", label: "Feeling direction 02", tone: "sand" },
