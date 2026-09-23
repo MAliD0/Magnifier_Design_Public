@@ -226,3 +226,4 @@ Useful later as an editorial/layout reference.
 - The palette in `src/styles/tokens.css` is sourced only from the Version 1.0 colour system.
 - Existing light/dark semantic tokens remain stable so sections do not need individual colour rewrites.
 - The premium-green family is available as a separate semantic colour and should remain an intentional accent rather than a default site-wide colour.
+- Style Compass uses the shared `Section` interactive variant, which mixes a restrained amount of premium green into the current theme background so the interactive area reads as a different mode without adding a second decorative section break.

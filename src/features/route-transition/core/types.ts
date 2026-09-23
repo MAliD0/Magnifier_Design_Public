@@ -21,6 +21,7 @@ export type RouteTransitionConfig = {
   motion: {
     referenceViewportWidthPx: number;
     referenceDurationMs: number;
+    minimumDurationMs: number;
     bezier: RouteTransitionBezier;
   };
   scan: {

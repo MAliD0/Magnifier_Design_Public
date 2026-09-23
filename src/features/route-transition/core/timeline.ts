@@ -19,9 +19,13 @@ export function getRouteTransitionDurationMs(
 ) {
   const safeWidth = Math.max(viewportWidth, 1);
 
-  return (
+  const scaledDuration =
     config.motion.referenceDurationMs *
-    (safeWidth / config.motion.referenceViewportWidthPx)
+    (safeWidth / config.motion.referenceViewportWidthPx);
+
+  return Math.max(
+    scaledDuration,
+    config.motion.minimumDurationMs,
   );
 }
 

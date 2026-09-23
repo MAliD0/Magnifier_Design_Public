@@ -345,8 +345,18 @@
 }
 
 @media (max-width: 40rem) {
+  .field {
+    height: auto;
+    min-height: 15rem;
+  }
+
   .fieldHeader {
     gap: 1rem;
+  }
+
+  .control {
+    margin-top: 1.5rem;
+    padding-top: 0;
   }
 
   .unitSwitchButton {

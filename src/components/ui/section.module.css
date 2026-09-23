@@ -1,0 +1,30 @@
+.section {
+  transition:
+    background-color 220ms ease,
+    color 220ms ease;
+}
+
+.section[data-section-variant="interactive"] {
+  background:
+    color-mix(
+      in srgb,
+      var(--premium) 10%,
+      var(--background)
+    );
+}
+
+:global(:root[data-theme="dark"])
+  .section[data-section-variant="interactive"] {
+  background:
+    color-mix(
+      in srgb,
+      var(--premium) 14%,
+      var(--background)
+    );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section {
+    transition: none;
+  }
+}

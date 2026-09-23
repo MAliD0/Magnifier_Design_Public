@@ -105,7 +105,8 @@
   aspect-ratio: 5 / 4;
   transition:
     transform var(--latest-project-media-transition) ease,
-    opacity var(--latest-project-media-transition) ease;
+    opacity var(--latest-project-media-transition) ease,
+    filter var(--latest-project-media-transition) ease;
 }
 
 .mediaImage {
@@ -114,11 +115,13 @@
 
 .mediaSelected {
   opacity: 1;
+  filter: grayscale(0);
   transform: scale(1);
 }
 
 .mediaIdle {
   opacity: 0.55;
+  filter: grayscale(1);
   transform: scale(0.975);
 }
 

@@ -79,6 +79,7 @@ export function StyleCompassSection({
   return (
     <Section
       id="style-compass"
+      variant="interactive"
       data-site-section="style-compass"
       className={styles.section}
       style={sectionStyle}

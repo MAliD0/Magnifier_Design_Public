@@ -70,12 +70,12 @@
 
 @media (max-width: 40rem) {
   .fieldGroup {
-    height: 30rem;
+    height: auto;
   }
 
   .fieldGroup[data-field-count="2"] {
-    height: 46rem;
+    height: auto;
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(2, minmax(0, 1fr));
+    grid-template-rows: none;
   }
 }

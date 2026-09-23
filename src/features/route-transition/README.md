@@ -75,3 +75,8 @@ Per-media clip progress uses a smootherstep curve instead of a linear clamp. Ima
 ### Scrollbar stability
 
 Route transitions lock page scrolling without changing the document's effective content width. The root uses `scrollbar-gutter: stable`, so classic scrollbar space remains reserved while `overflow: hidden` is active. The runtime does not add manual scrollbar-width padding, avoiding double compensation. The original inline overflow value is restored when the transition returns to idle.
+
+
+### Small-viewport scaling
+
+Transition duration no longer shrinks linearly all the way down with viewport width. The desktop motion still scales from the 1440px / 1200ms reference, but a configurable `minimumDurationMs` floor keeps phone transitions readable and prevents the fade/scan sequence from collapsing into a few hundred milliseconds. The Magnifier transition screen also switches to balanced wrapping, smaller type, safe-area-aware vertical padding, and full layer-height centering below 30rem.

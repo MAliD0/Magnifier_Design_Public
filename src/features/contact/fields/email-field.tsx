@@ -22,6 +22,7 @@ export function EmailField({
     <ContactFieldShell label={field.label} error={error}>
       <input
         type="email"
+        data-transition-fade
         name={field.id}
         value={value}
         onChange={(event) => onChange(event.target.value)}
