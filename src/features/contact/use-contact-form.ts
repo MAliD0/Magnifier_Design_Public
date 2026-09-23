@@ -151,6 +151,10 @@ function validateField(
     return null;
   }
 
+  if (typeof value !== "string") {
+    return "This field is required.";
+  }
+
   const normalized = value.trim();
 
   if (
