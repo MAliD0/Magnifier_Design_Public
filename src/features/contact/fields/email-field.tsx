@@ -31,6 +31,7 @@ export function EmailField({
         inputMode="email"
         className={styles.input}
         aria-label={field.label}
+        aria-invalid={Boolean(error)}
       />
     </ContactFieldShell>
   );

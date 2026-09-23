@@ -12,6 +12,17 @@ function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
 }
 
+function smootherstep(value: number) {
+  const progress = clamp(value, 0, 1);
+
+  return (
+    progress *
+    progress *
+    progress *
+    (progress * (progress * 6 - 15) + 10)
+  );
+}
+
 function isRenderableMedia(element: HTMLElement) {
   const rect = element.getBoundingClientRect();
 
@@ -105,10 +116,8 @@ export function updateRouteTransitionMediaWipe(
 ) {
   media.forEach(({ element, left, width }) => {
     const currentLeft = left + cameraX;
-    const wipeProgress = clamp(
+    const wipeProgress = smootherstep(
       (scanX - currentLeft) / width,
-      0,
-      1,
     );
 
     setMediaInsets(element, wipeProgress, 0);
@@ -122,10 +131,8 @@ export function updateRouteTransitionMediaReveal(
 ) {
   media.forEach(({ element, left, width }) => {
     const currentLeft = left + cameraX;
-    const crossedProgress = clamp(
+    const crossedProgress = smootherstep(
       (scanX - currentLeft) / width,
-      0,
-      1,
     );
 
     setMediaInsets(element, 0, 1 - crossedProgress);

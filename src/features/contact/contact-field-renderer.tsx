@@ -8,6 +8,8 @@ import {
 import type {
   ContactFieldDefinition,
   ContactFieldValue,
+  ContactPhoneValue,
+  ContactSizeValue,
 } from "./contact-form.types";
 
 type ContactFieldRendererProps = {
@@ -18,6 +20,16 @@ type ContactFieldRendererProps = {
   onComplete: () => void;
 };
 
+const emptyPhoneValue: ContactPhoneValue = {
+  region: "",
+  number: "",
+};
+
+const emptySizeValue: ContactSizeValue = {
+  amount: "",
+  unit: "sqm",
+};
+
 export function ContactFieldRenderer({
   field,
   value,
@@ -26,16 +38,26 @@ export function ContactFieldRenderer({
   onComplete,
 }: ContactFieldRendererProps) {
   switch (field.type) {
-    case "phone":
+    case "phone": {
+      const phoneValue =
+        typeof value === "object" &&
+        value !== null &&
+        !Array.isArray(value) &&
+        "region" in value &&
+        "number" in value
+          ? value
+          : emptyPhoneValue;
+
       return (
         <PhoneField
           field={field}
-          value={typeof value === "string" ? value : ""}
+          value={phoneValue}
           error={error}
           onChange={onChange}
           onComplete={onComplete}
         />
       );
+    }
 
     case "email":
       return (
@@ -59,26 +81,44 @@ export function ContactFieldRenderer({
         />
       );
 
-    case "size":
+    case "size": {
+      const sizeValue =
+        typeof value === "object" &&
+        value !== null &&
+        !Array.isArray(value) &&
+        "amount" in value &&
+        "unit" in value
+          ? value
+          : emptySizeValue;
+
       return (
         <SizeField
           field={field}
-          value={typeof value === "string" ? value : ""}
+          value={sizeValue}
           error={error}
           onChange={onChange}
           onComplete={onComplete}
         />
       );
+    }
 
-    case "type-selection":
+    case "type-selection": {
+      const selectionValue =
+        typeof value === "string" || Array.isArray(value)
+          ? value
+          : field.multiple
+            ? []
+            : "";
+
       return (
         <TypeSelectionField
           field={field}
-          value={value ?? (field.multiple ? [] : "")}
+          value={selectionValue}
           error={error}
           onChange={onChange}
           onComplete={onComplete}
         />
       );
+    }
   }
 }

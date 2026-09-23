@@ -8,25 +8,40 @@ export const contactFormFields = [
     id: "phone",
     type: "phone",
     label: "Phone",
-    placeholder: "Phone number",
+    regionPlaceholder: "+48",
+    placeholder: "123 456 789",
+    validation: {
+      minDigits: 6,
+      maxDigits: 14,
+      maxTotalDigits: 15,
+      maxRegionDigits: 4,
+    },
   },
   {
     id: "email",
     type: "email",
     label: "Email",
-    placeholder: "Email",
+    placeholder: "email@mail.com",
+    validation: {
+      requireAtSymbol: true,
+    },
   },
   {
     id: "country",
     type: "country",
     label: "Country",
     placeholder: "Country",
+    suggestionLimit: 4,
   },
   {
     id: "size",
     type: "size",
     label: "Size",
-    placeholder: "sq.m. / sq.ft.",
+    placeholder: "Enter size",
+    sizeQuickValues: {
+      sqm: [50, 75, 100, 150, 200, 300],
+      sqft: [500, 750, 1000, 1500, 2000, 3000],
+    },
   },
   {
     id: "project-type",
@@ -38,6 +53,8 @@ export const contactFormFields = [
       { value: "commercial", label: "Commercial" },
       { value: "other", label: "Other" },
     ],
+    customOptionValue: "other",
+    customOptionPlaceholder: "Write project type",
   },
   {
     id: "service-type",

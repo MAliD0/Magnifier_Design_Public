@@ -28,7 +28,7 @@ export type RouteTransitionConfig = {
     centerViewportProgress: number;
   };
   text: {
-    fadeMidpointProgress: number;
+    fadeWindowProgress: number;
   };
   coverHoldMs: number;
 };

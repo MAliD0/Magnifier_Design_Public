@@ -19,7 +19,7 @@ export function DesignProcessExperience({
   const [openStage, setOpenStage] = useState<number | null>(
     designProcessConfig.initialStageIndex,
   );
-  const [activeStage, setActiveStage] = useState<number>(
+  const [activeStage, setActiveStage] = useState(
     designProcessConfig.initialStageIndex,
   );
 

@@ -10,36 +10,177 @@ import {
   contactFormFields,
   contactFormSteps,
 } from "./contact-form.config";
+import { isKnownCountry } from "./data/countries";
 import type {
   ContactFieldDefinition,
   ContactFieldId,
   ContactFieldValue,
   ContactFormValues,
+  ContactPhoneValue,
+  ContactSizeValue,
 } from "./contact-form.types";
 
-function hasValue(
+function isPhoneValue(
   value: ContactFieldValue | undefined,
-): value is ContactFieldValue {
+): value is ContactPhoneValue {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    !Array.isArray(value) &&
+    "region" in value &&
+    "number" in value
+  );
+}
+
+function isSizeValue(
+  value: ContactFieldValue | undefined,
+): value is ContactSizeValue {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    !Array.isArray(value) &&
+    "amount" in value &&
+    "unit" in value
+  );
+}
+
+function hasValue(value: ContactFieldValue | undefined) {
   if (Array.isArray(value)) {
     return value.length > 0;
   }
 
+  if (isPhoneValue(value)) {
+    return Boolean(
+      value.region.trim() && value.number.trim(),
+    );
+  }
+
+  if (isSizeValue(value)) {
+    return Boolean(value.amount.trim());
+  }
+
   return Boolean(value?.trim());
+}
+
+function countDigits(value: string) {
+  return value.replace(/\D/g, "").length;
+}
+
+function validatePhone(
+  field: ContactFieldDefinition,
+  value: ContactFieldValue | undefined,
+) {
+  if (!isPhoneValue(value)) {
+    return "Enter a region code and phone number.";
+  }
+
+  const regionDigits = countDigits(value.region);
+  const numberDigits = countDigits(value.number);
+  const validation = field.validation;
+
+  if (!value.region.startsWith("+") || regionDigits === 0) {
+    return "Add a region code, for example +48.";
+  }
+
+  if (
+    validation?.maxRegionDigits &&
+    regionDigits > validation.maxRegionDigits
+  ) {
+    return `Region code can contain up to ${validation.maxRegionDigits} digits.`;
+  }
+
+  if (
+    validation?.minDigits &&
+    numberDigits < validation.minDigits
+  ) {
+    return `Phone number must contain at least ${validation.minDigits} digits.`;
+  }
+
+  if (
+    validation?.maxDigits &&
+    numberDigits > validation.maxDigits
+  ) {
+    return `Phone number can contain up to ${validation.maxDigits} digits.`;
+  }
+
+  if (
+    validation?.maxTotalDigits &&
+    regionDigits + numberDigits >
+      validation.maxTotalDigits
+  ) {
+    return `International phone number can contain up to ${validation.maxTotalDigits} digits in total.`;
+  }
+
+  return null;
 }
 
 function validateField(
   field: ContactFieldDefinition,
   value: ContactFieldValue | undefined,
 ) {
+  if (field.type === "phone") {
+    return validatePhone(field, value);
+  }
+
   if (!hasValue(value)) {
     return "This field is required.";
   }
 
-  if (Array.isArray(value)) {
+  if (field.type === "size") {
+    if (!isSizeValue(value)) {
+      return "Enter a valid project size.";
+    }
+
+    const numericSize = Number(value.amount);
+
+    if (
+      !Number.isFinite(numericSize) ||
+      numericSize <= 0
+    ) {
+      return "Enter a valid project size.";
+    }
+
+    return null;
+  }
+
+  if (
+    Array.isArray(value) ||
+    isPhoneValue(value) ||
+    isSizeValue(value)
+  ) {
     return null;
   }
 
   const normalized = value.trim();
+
+  if (
+    field.type === "type-selection" &&
+    field.customOptionValue &&
+    normalized === field.customOptionValue
+  ) {
+    return "Write the project type.";
+  }
+
+  if (
+    field.type === "type-selection" &&
+    field.customOptionValue &&
+    normalized.startsWith(
+      field.customOptionValue + ":",
+    ) &&
+    !normalized
+      .slice(field.customOptionValue.length + 1)
+      .trim()
+  ) {
+    return "Write the project type.";
+  }
+
+  if (
+    field.type === "email" &&
+    field.validation?.requireAtSymbol &&
+    !normalized.includes("@")
+  ) {
+    return "Email must include @.";
+  }
 
   if (
     field.type === "email" &&
@@ -49,10 +190,10 @@ function validateField(
   }
 
   if (
-    field.type === "size" &&
-    (!Number.isFinite(Number(normalized)) || Number(normalized) <= 0)
+    field.type === "country" &&
+    !isKnownCountry(normalized)
   ) {
-    return "Enter a valid project size.";
+    return "Select a country from the list.";
   }
 
   return null;
@@ -198,9 +339,19 @@ export function useContactForm() {
     }
   }, []);
 
+  const validFieldIds = new Set(
+    contactFormFields.flatMap((field) =>
+      validateField(field, values[field.id]) === null
+        ? [field.id]
+        : [],
+    ),
+  );
+
   const completedStepIndices = contactFormSteps.flatMap(
     (step, index) =>
-      step.fieldIds.every((fieldId) => completedFieldIds.has(fieldId))
+      step.fieldIds.every((fieldId) =>
+        validFieldIds.has(fieldId),
+      )
         ? [index]
         : [],
   );
@@ -213,7 +364,7 @@ export function useContactForm() {
     errors,
     completedFieldIds,
     completedStepIndices,
-    completedCount: completedFieldIds.size,
+    completedCount: validFieldIds.size,
     totalFields: contactFormFields.length,
     totalSteps: contactFormSteps.length,
     allowIncompleteNavigation,

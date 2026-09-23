@@ -44,7 +44,12 @@ function resolveContent(
 ) {
   const pathname = getPathname(targetPath);
 
-  return contentByPath?.[pathname] ?? fallbackContent ?? null;
+  return (
+    contentByPath?.[targetPath] ??
+    contentByPath?.[pathname] ??
+    fallbackContent ??
+    null
+  );
 }
 
 export function RouteTransitionProvider({
@@ -63,6 +68,7 @@ export function RouteTransitionProvider({
   const [content, setContent] =
     useState<RouteTransitionContent | null>(null);
   const phaseRef = useRef<RouteTransitionPhase>("idle");
+  const scrollLockRef = useRef<string | null>(null);
 
   const setTransitionPhase = useCallback(
     (nextPhase: RouteTransitionPhase) => {
@@ -73,14 +79,25 @@ export function RouteTransitionProvider({
   );
 
   useEffect(() => {
+    const body = document.body;
+
     if (phase === "idle") {
       delete document.documentElement.dataset.routeTransition;
-      document.body.style.overflow = "";
+
+      if (scrollLockRef.current !== null) {
+        body.style.overflow = scrollLockRef.current;
+        scrollLockRef.current = null;
+      }
+
       return;
     }
 
     document.documentElement.dataset.routeTransition = phase;
-    document.body.style.overflow = "hidden";
+
+    if (scrollLockRef.current === null) {
+      scrollLockRef.current = body.style.overflow;
+      body.style.overflow = "hidden";
+    }
   }, [phase]);
 
   useEffect(
@@ -88,7 +105,12 @@ export function RouteTransitionProvider({
       clearRouteTransitionMedia();
       clearRouteTransitionText();
       delete document.documentElement.dataset.routeTransition;
-      document.body.style.overflow = "";
+
+      if (scrollLockRef.current !== null) {
+        document.body.style.overflow =
+          scrollLockRef.current;
+        scrollLockRef.current = null;
+      }
     },
     [],
   );

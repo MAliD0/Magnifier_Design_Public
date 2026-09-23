@@ -1,8 +1,26 @@
-import type { KeyboardEvent } from "react";
+import {
+  type ChangeEvent,
+  type KeyboardEvent,
+  useRef,
+} from "react";
 
-import type { ContactFieldProps } from "../contact-form.types";
+import type {
+  ContactFieldProps,
+  ContactPhoneValue,
+} from "../contact-form.types";
 import styles from "./contact-field-shell.module.css";
 import { ContactFieldShell } from "./contact-field-shell";
+
+function normalizeRegionCode(
+  value: string,
+  maxDigits: number,
+) {
+  const digits = value
+    .replace(/\D/g, "")
+    .slice(0, maxDigits);
+
+  return digits ? `+${digits}` : "";
+}
 
 export function PhoneField({
   field,
@@ -10,8 +28,37 @@ export function PhoneField({
   error,
   onChange,
   onComplete,
-}: ContactFieldProps<string>) {
-  function handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
+}: ContactFieldProps<ContactPhoneValue>) {
+  const numberRef = useRef<HTMLInputElement>(null);
+  const maxRegionDigits =
+    field.validation?.maxRegionDigits ?? 4;
+
+  function handleRegionChange(
+    event: ChangeEvent<HTMLInputElement>,
+  ) {
+    onChange({
+      ...value,
+      region: normalizeRegionCode(
+        event.target.value,
+        maxRegionDigits,
+      ),
+    });
+  }
+
+  function handleRegionKeyDown(
+    event: KeyboardEvent<HTMLInputElement>,
+  ) {
+    if (event.key !== "Enter") {
+      return;
+    }
+
+    event.preventDefault();
+    numberRef.current?.focus();
+  }
+
+  function handleNumberKeyDown(
+    event: KeyboardEvent<HTMLInputElement>,
+  ) {
     if (event.key === "Enter") {
       event.preventDefault();
       onComplete();
@@ -20,18 +67,48 @@ export function PhoneField({
 
   return (
     <ContactFieldShell label={field.label} error={error}>
-      <input
-        type="tel"
-        name={field.id}
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-        onKeyDown={handleKeyDown}
-        placeholder={field.placeholder}
-        autoComplete="tel"
-        inputMode="tel"
-        className={styles.input}
-        aria-label={field.label}
-      />
+      <div className={styles.phoneControl}>
+        <label className={styles.phoneSubfield}>
+          <span className={styles.subfieldLabel}>Region</span>
+          <input
+            type="tel"
+            name="phone-region"
+            value={value.region}
+            onChange={handleRegionChange}
+            onKeyDown={handleRegionKeyDown}
+            placeholder={field.regionPlaceholder}
+            autoComplete="tel-country-code"
+            inputMode="tel"
+            maxLength={maxRegionDigits + 1}
+            className={styles.input}
+            aria-label="Phone region code"
+            aria-invalid={Boolean(error)}
+          />
+        </label>
+
+        <label className={styles.phoneSubfield}>
+          <span className={styles.subfieldLabel}>Number</span>
+          <input
+            ref={numberRef}
+            type="tel"
+            name={field.id}
+            value={value.number}
+            onChange={(event) =>
+              onChange({
+                ...value,
+                number: event.target.value,
+              })
+            }
+            onKeyDown={handleNumberKeyDown}
+            placeholder={field.placeholder}
+            autoComplete="tel-national"
+            inputMode="tel"
+            className={styles.input}
+            aria-label="Phone number"
+            aria-invalid={Boolean(error)}
+          />
+        </label>
+      </div>
     </ContactFieldShell>
   );
 }

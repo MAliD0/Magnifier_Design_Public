@@ -1,4 +1,5 @@
 const TEXT_ATTRIBUTE = "data-transition-text";
+const FADE_GROUP_SELECTOR = "[data-transition-fade]";
 const MEDIA_SELECTOR = "[data-transition-media]";
 const MEDIA_CONTENT_SELECTOR = "[data-transition-media-content]";
 const PRIMARY_TEXT_SELECTOR =
@@ -34,6 +35,7 @@ function canMarkText(element: HTMLElement) {
     hasMeaningfulText(element) &&
     isVisibleTextElement(element) &&
     !element.closest(MEDIA_CONTENT_SELECTOR) &&
+    !element.closest(FADE_GROUP_SELECTOR) &&
     !containsTransitionMedia(element) &&
     !element.closest(`[${TEXT_ATTRIBUTE}]`)
   );
@@ -41,10 +43,16 @@ function canMarkText(element: HTMLElement) {
 
 export function clearRouteTransitionText() {
   document
-    .querySelectorAll<HTMLElement>(`[${TEXT_ATTRIBUTE}]`)
+    .querySelectorAll<HTMLElement>(
+      `[${TEXT_ATTRIBUTE}], ${FADE_GROUP_SELECTOR}`,
+    )
     .forEach((element) => {
-      element.removeAttribute(TEXT_ATTRIBUTE);
+      if (element.hasAttribute(TEXT_ATTRIBUTE)) {
+        element.removeAttribute(TEXT_ATTRIBUTE);
+      }
+
       element.style.removeProperty("opacity");
+      element.style.removeProperty("visibility");
       element.style.removeProperty("will-change");
     });
 }
@@ -72,7 +80,7 @@ export function measureRouteTransitionText(
 
   return Array.from(
     stage.querySelectorAll<HTMLElement>(
-      `[${TEXT_ATTRIBUTE}]`,
+      `[${TEXT_ATTRIBUTE}], ${FADE_GROUP_SELECTOR}`,
     ),
   );
 }
@@ -88,6 +96,8 @@ export function setRouteTransitionTextOpacity(
 
   textElements.forEach((element) => {
     element.style.opacity = normalizedOpacity.toFixed(3);
+    element.style.visibility =
+      normalizedOpacity <= 0.001 ? "hidden" : "visible";
     element.style.willChange = "opacity";
   });
 }

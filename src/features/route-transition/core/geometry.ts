@@ -1,14 +1,30 @@
 import { getCubicBezierProgress } from "./bezier";
+import { getRouteTransitionMotionProgress } from "./timeline";
 import type { RouteTransitionConfig } from "./types";
+
+function getEasedProgress(
+  progress: number,
+  config: RouteTransitionConfig,
+) {
+  return getCubicBezierProgress(
+    progress,
+    config.motion.bezier,
+  );
+}
 
 export function getOutgoingCameraX(
   progress: number,
   viewportWidth: number,
   config: RouteTransitionConfig,
 ) {
-  const easedProgress = getCubicBezierProgress(
+  const motionProgress = getRouteTransitionMotionProgress(
+    "exit",
     progress,
-    config.motion.bezier,
+    config,
+  );
+  const easedProgress = getEasedProgress(
+    motionProgress,
+    config,
   );
 
   return -viewportWidth * easedProgress;
@@ -19,9 +35,14 @@ export function getIncomingCameraX(
   viewportWidth: number,
   config: RouteTransitionConfig,
 ) {
-  const easedProgress = getCubicBezierProgress(
+  const motionProgress = getRouteTransitionMotionProgress(
+    "enter",
     progress,
-    config.motion.bezier,
+    config,
+  );
+  const easedProgress = getEasedProgress(
+    motionProgress,
+    config,
   );
 
   return viewportWidth * (1 - easedProgress);
@@ -32,17 +53,30 @@ export function getOutgoingScanX(
   viewportWidth: number,
   config: RouteTransitionConfig,
 ) {
+  const motionProgress = getRouteTransitionMotionProgress(
+    "exit",
+    progress,
+    config,
+  );
   const lockProgress = config.scan.centerLockProgress;
   const centerProgress = config.scan.centerViewportProgress;
 
-  if (lockProgress <= 0 || progress >= lockProgress) {
+  if (
+    lockProgress <= 0 ||
+    motionProgress >= lockProgress
+  ) {
     return viewportWidth * centerProgress;
   }
+
+  const localProgress = getEasedProgress(
+    motionProgress / lockProgress,
+    config,
+  );
 
   return (
     viewportWidth *
     centerProgress *
-    (progress / lockProgress)
+    localProgress
   );
 }
 
@@ -51,6 +85,11 @@ export function getIncomingScanX(
   viewportWidth: number,
   config: RouteTransitionConfig,
 ) {
+  const motionProgress = getRouteTransitionMotionProgress(
+    "enter",
+    progress,
+    config,
+  );
   const lockProgress = config.scan.centerLockProgress;
   const centerProgress = config.scan.centerViewportProgress;
   const releaseProgress = 1 - lockProgress;
@@ -59,16 +98,18 @@ export function getIncomingScanX(
     return viewportWidth;
   }
 
-  if (progress <= releaseProgress) {
+  if (motionProgress <= releaseProgress) {
     return viewportWidth * centerProgress;
   }
 
-  const release =
-    (progress - releaseProgress) / lockProgress;
+  const localProgress = getEasedProgress(
+    (motionProgress - releaseProgress) / lockProgress,
+    config,
+  );
 
   return (
     viewportWidth *
     (centerProgress +
-      (1 - centerProgress) * release)
+      (1 - centerProgress) * localProgress)
   );
 }

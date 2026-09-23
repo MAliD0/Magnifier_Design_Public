@@ -15,7 +15,28 @@ export type ContactFieldType =
   | "size"
   | "type-selection";
 
-export type ContactFieldValue = string | string[];
+export type ContactPhoneValue = {
+  region: string;
+  number: string;
+};
+
+export type ContactSizeUnit = "sqm" | "sqft";
+
+export type ContactSizeValue = {
+  amount: string;
+  unit: ContactSizeUnit;
+};
+
+export type ContactSizeQuickValues = {
+  sqm: readonly number[];
+  sqft: readonly number[];
+};
+
+export type ContactFieldValue =
+  | string
+  | string[]
+  | ContactPhoneValue
+  | ContactSizeValue;
 
 export type ContactFormValues = Partial<
   Record<ContactFieldId, ContactFieldValue>
@@ -26,13 +47,27 @@ export type ContactFieldOption = {
   label: string;
 };
 
+export type ContactFieldValidation = {
+  minDigits?: number;
+  maxDigits?: number;
+  maxTotalDigits?: number;
+  maxRegionDigits?: number;
+  requireAtSymbol?: boolean;
+};
+
 export type ContactFieldDefinition = {
   id: ContactFieldId;
   type: ContactFieldType;
   label: string;
   placeholder?: string;
+  regionPlaceholder?: string;
+  suggestionLimit?: number;
+  sizeQuickValues?: ContactSizeQuickValues;
   options?: readonly ContactFieldOption[];
+  customOptionValue?: string;
+  customOptionPlaceholder?: string;
   multiple?: boolean;
+  validation?: ContactFieldValidation;
 };
 
 export type ContactFormStepDefinition = {

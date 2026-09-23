@@ -23,11 +23,14 @@
 
 .fieldGroup {
   display: grid;
+  height: 23rem;
   gap: 1rem;
+  align-items: stretch;
 }
 
 .fieldGroup[data-field-count="2"] {
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
 }
 
 .stepNavigation {
@@ -66,7 +69,13 @@
 }
 
 @media (max-width: 40rem) {
+  .fieldGroup {
+    height: 30rem;
+  }
+
   .fieldGroup[data-field-count="2"] {
+    height: 46rem;
     grid-template-columns: 1fr;
+    grid-template-rows: repeat(2, minmax(0, 1fr));
   }
 }

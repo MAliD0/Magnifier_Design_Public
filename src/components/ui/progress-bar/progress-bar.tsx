@@ -109,6 +109,7 @@ export function ProgressBar({
   return (
     <div
       className={`${styles.root} ${className}`}
+      data-transition-fade
       aria-label={ariaLabel}
     >
       {showMeta ? (

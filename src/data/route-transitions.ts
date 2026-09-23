@@ -4,6 +4,11 @@ import type {
 } from "@/features/route-transition";
 
 export const routeTransitionContent = {
+  "/#style-compass": {
+    id: "style-compass",
+    eyebrow: "Style Compass",
+    lines: ["Let’s find", "your style."],
+  },
   "/contact": {
     id: "contact",
     eyebrow: "Start a project",

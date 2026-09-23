@@ -6,5 +6,8 @@ export type {
   ContactFieldOption,
   ContactFieldType,
   ContactFieldValue,
+  ContactPhoneValue,
+  ContactSizeUnit,
+  ContactSizeValue,
   ContactFormValues,
 } from "./contact-form.types";

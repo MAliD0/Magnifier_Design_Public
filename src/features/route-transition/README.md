@@ -50,3 +50,28 @@ Outgoing media wipes image -> fill from left to right. Incoming media mirrors it
 - `components/`: generic moving page stage and transition-screen layer.
 
 Brand-specific transition content, typography, colors and layout must stay outside this feature.
+
+## Motion sequencing
+
+Readable page text does not remain visible during the full-screen camera sweep. On exit, text fades while the page is stationary; the sweep starts after that fade. On enter, the page/media sweep settles first and text fades in afterward. This avoids dragging readable typography across the viewport and reduces motion blur/visual strain while preserving the cover transition.
+
+The text fade window is controlled by `config.text.fadeWindowProgress`. The centered transition screen remains readable for `config.coverHoldMs` before the incoming sweep begins. Brand transition copy should remain stationary while readable; the Magnifier implementation reveals the whole text block only during the centered cover phase rather than animating individual characters while the screen is moving.
+
+Use `data-transition-fade` on a composite UI component when the whole component should fade with page typography. This is useful for visual controls such as progress bars whose meaningful pixels are not all text nodes.
+
+The engine also respects `prefers-reduced-motion: reduce`, completing route phases without the full-screen movement.
+
+
+## Motion settling
+
+The route camera and scan use an easing curve whose velocity approaches zero at the final coordinate. Scan lock/release sub-ranges are eased independently instead of ending on a linear segment. This prevents the visible "hard stop" that occurs when an element reaches its final position with non-zero velocity.
+
+
+### Media settling
+
+Per-media clip progress uses a smootherstep curve instead of a linear clamp. Image, video, and marked media-content wipes therefore approach both their hidden and visible boundaries with zero velocity and zero acceleration, preventing individual media masks from visibly hitting their endpoint while the overall camera is still settling.
+
+
+### Scrollbar stability
+
+Route transitions lock page scrolling without changing the document's effective content width. The root uses `scrollbar-gutter: stable`, so classic scrollbar space remains reserved while `overflow: hidden` is active. The runtime does not add manual scrollbar-width padding, avoiding double compensation. The original inline overflow value is restored when the transition returns to idle.

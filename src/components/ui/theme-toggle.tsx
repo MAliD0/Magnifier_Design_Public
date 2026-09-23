@@ -41,6 +41,7 @@ export function ThemeToggle() {
   return (
     <button
       type="button"
+      data-transition-fade
       onClick={toggleTheme}
       aria-pressed={isDark}
       aria-label={`Switch to ${targetTheme} mode`}
