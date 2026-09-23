@@ -1,3 +1,21 @@
+function stripBasePath(pathname: string) {
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
+  if (!basePath) {
+    return pathname;
+  }
+
+  if (pathname === basePath) {
+    return "/";
+  }
+
+  if (pathname.startsWith(`${basePath}/`)) {
+    return pathname.slice(basePath.length) || "/";
+  }
+
+  return pathname;
+}
+
 export function getInternalTransitionTarget(
   event: MouseEvent,
 ) {
@@ -51,5 +69,7 @@ export function getInternalTransitionTarget(
     return null;
   }
 
-  return `${url.pathname}${url.search}${url.hash}`;
+  const pathname = stripBasePath(url.pathname);
+
+  return `${pathname}${url.search}${url.hash}`;
 }
