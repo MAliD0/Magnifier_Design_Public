@@ -1,19 +1,24 @@
 import type { Metadata } from "next";
 
-import { PageIntro } from "@/components/ui/page-intro";
+import { ServicesPageSection } from "@/components/sections/services-page";
+import {
+  servicesPageIntro,
+  servicesPageItems,
+} from "@/data/services";
 
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "Interior design services offered by Magnifier Design for residential and commercial spaces.",
+    "Residential, hospitality, styling, procurement and design supervision services from Magnifier Design.",
 };
 
 export default function ServicesPage() {
   return (
-    <PageIntro
-      eyebrow="What we do"
-      title="Services"
-      description="The final service offering, process, and scope will be defined here before we build the complete service presentation."
+    <ServicesPageSection
+      eyebrow={servicesPageIntro.eyebrow}
+      title={servicesPageIntro.title}
+      description={servicesPageIntro.description}
+      services={servicesPageItems}
     />
   );
 }

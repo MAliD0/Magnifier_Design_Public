@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import type { CSSProperties } from "react";
 
 import { Container } from "@/components/ui/container";
+import { SectionLink } from "@/components/ui/section-link";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { headerConfig } from "@/data/header";
 import { siteConfig } from "@/data/site";
@@ -90,15 +91,25 @@ export function Header() {
             aria-label="Primary navigation"
             className={`${styles.desktopNavigation} ${styles.revealNavigation}`}
           >
-            {siteConfig.navigation.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={styles.navigationLink}
-              >
-                {item.label}
-              </Link>
-            ))}
+            {siteConfig.navigation.map((item) =>
+              pathname === "/" && item.href.startsWith("/#") ? (
+                <SectionLink
+                  key={item.href}
+                  href={item.href.slice(1) as `#${string}`}
+                  className={styles.navigationLink}
+                >
+                  {item.label}
+                </SectionLink>
+              ) : (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={styles.navigationLink}
+                >
+                  {item.label}
+                </Link>
+              ),
+            )}
           </nav>
 
           <div className={`${styles.actions} ${styles.revealActions}`}>
@@ -119,15 +130,25 @@ export function Header() {
             aria-label="Primary navigation"
             className={`${styles.mobileNavigation} ${styles.revealNavigation}`}
           >
-            {siteConfig.navigation.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={styles.mobileNavigationLink}
-              >
-                {item.label}
-              </Link>
-            ))}
+            {siteConfig.navigation.map((item) =>
+              pathname === "/" && item.href.startsWith("/#") ? (
+                <SectionLink
+                  key={item.href}
+                  href={item.href.slice(1) as `#${string}`}
+                  className={styles.mobileNavigationLink}
+                >
+                  {item.label}
+                </SectionLink>
+              ) : (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={styles.mobileNavigationLink}
+                >
+                  {item.label}
+                </Link>
+              ),
+            )}
             <Link
               href="/contact"
               className={`${styles.mobileNavigationLink} ${styles.mobileContactLink}`}
