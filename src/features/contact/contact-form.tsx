@@ -24,7 +24,10 @@ export function ContactForm() {
       className={styles.section}
       data-site-section="contact"
     >
-      <div className={styles.container}>
+      <div
+        className={styles.container}
+        data-field-count={form.activeFields.length}
+      >
         <div className={styles.progress}>
           <ProgressBar
             currentIndex={form.activeIndex}

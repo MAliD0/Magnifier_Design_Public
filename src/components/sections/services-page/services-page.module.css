@@ -157,6 +157,36 @@
   line-height: 1.8;
 }
 
+.backToTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-top: clamp(3rem, 5vw, 5rem);
+  padding: 1.15rem 1.25rem;
+  border: 1px solid var(--border);
+  color: var(--foreground);
+  font-size: 0.78rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
+}
+
+.backToTop span:last-child {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.backToTop:hover {
+  border-color: var(--foreground);
+  background: var(--foreground);
+  color: var(--background);
+}
+
 .finalCta {
   padding-block: clamp(5rem, 9vw, 9rem);
 }
@@ -297,13 +327,15 @@
 
   .chapter:nth-child(odd) .tagline,
   .chapter:nth-child(odd) .introduction,
-  .chapter:nth-child(odd) .processGrid {
+  .chapter:nth-child(odd) .processGrid,
+  .chapter:nth-child(odd) .backToTop {
     grid-column: 7 / span 6;
   }
 
   .chapter:nth-child(even) .tagline,
   .chapter:nth-child(even) .introduction,
-  .chapter:nth-child(even) .processGrid {
+  .chapter:nth-child(even) .processGrid,
+  .chapter:nth-child(even) .backToTop {
     grid-column: 1 / span 6;
   }
 
@@ -361,6 +393,11 @@
     display: block;
     width: 100%;
     margin-top: clamp(3.5rem, 5vw, 5.5rem);
+  }
+
+  .backToTop {
+    grid-row: 4;
+    width: 100%;
   }
 
   .processTitle {
@@ -423,6 +460,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .indexLink,
+  .backToTop,
   .finalCtaLink {
     transition: none;
   }

@@ -93,11 +93,7 @@ export const contactFormFields = [
 export const contactFormSteps = [
   {
     id: "contact-details",
-    fieldIds: ["phone", "email"],
-  },
-  {
-    id: "country",
-    fieldIds: ["country"],
+    fieldIds: ["phone", "email", "country"],
   },
   {
     id: "size",

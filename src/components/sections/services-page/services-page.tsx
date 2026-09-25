@@ -22,7 +22,7 @@ export function ServicesPageSection({
 }: ServicesPageSectionProps) {
   return (
     <div className={styles.page} data-site-section="services-page">
-      <section className={styles.intro}>
+      <section id="services-top" className={styles.intro}>
         <Container>
           <p className={styles.eyebrow}>{eyebrow}</p>
 
@@ -95,6 +95,13 @@ export function ServicesPageSection({
                     </div>
                   </div>
 
+                  <SectionLink
+                    href="#services-top"
+                    className={styles.backToTop}
+                  >
+                    <span>Back to services</span>
+                    <span aria-hidden="true">↑</span>
+                  </SectionLink>
                 </div>
               </div>
             </Container>
