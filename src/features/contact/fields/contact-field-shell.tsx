@@ -3,9 +3,11 @@ import type { ReactNode } from "react";
 import styles from "./contact-field-shell.module.css";
 
 type ContactFieldShellProps = {
-  label: string;
+  label?: string;
   error?: string;
   headerAction?: ReactNode;
+  embedded?: boolean;
+  compact?: boolean;
   children: ReactNode;
 };
 
@@ -13,29 +15,46 @@ export function ContactFieldShell({
   label,
   error,
   headerAction,
+  embedded = false,
+  compact = false,
   children,
 }: ContactFieldShellProps) {
-  return (
-    <div className={styles.field}>
-      <div className={styles.fieldHeader}>
-        <h1 className={styles.label}>{label}</h1>
+  const showHeader = Boolean(label || headerAction);
 
-        {headerAction ? (
-          <div className={styles.headerAction}>
-            {headerAction}
-          </div>
-        ) : null}
-      </div>
+  return (
+    <div
+      className={embedded ? styles.embeddedField : styles.field}
+      data-compact={compact || undefined}
+    >
+      {showHeader ? (
+        <div className={styles.fieldHeader}>
+          {label ? (
+            embedded ? (
+              <p className={styles.embeddedLabel}>{label}</p>
+            ) : (
+              <h1 className={styles.label}>{label}</h1>
+            )
+          ) : null}
+
+          {headerAction ? (
+            <div className={styles.headerAction}>
+              {headerAction}
+            </div>
+          ) : null}
+        </div>
+      ) : null}
 
       <div className={styles.control}>{children}</div>
 
-      <p
-        className={styles.error}
-        role={error ? "alert" : undefined}
-        aria-hidden={!error}
-      >
-        {error ?? "\u00a0"}
-      </p>
+      {embedded || error ? (
+        <p
+          className={styles.error}
+          role={error ? "alert" : undefined}
+          aria-hidden={!error}
+        >
+          {error ?? "\u00a0"}
+        </p>
+      ) : null}
     </div>
   );
 }

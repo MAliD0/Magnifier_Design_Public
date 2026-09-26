@@ -24,28 +24,32 @@ export function ServicesPageSection({
     <div className={styles.page} data-site-section="services-page">
       <section id="services-top" className={styles.intro}>
         <Container>
-          <p className={styles.eyebrow}>{eyebrow}</p>
+          <div className={styles.introColumns}>
+            <div className={styles.introCopy}>
+              <p className={styles.eyebrow}>{eyebrow}</p>
+              <p className={styles.pageDescription}>{description}</p>
+            </div>
 
-          <div className={styles.introGrid}>
-            <h1 className={styles.pageTitle}>{title}</h1>
-            <p className={styles.pageDescription}>{description}</p>
+            <div className={styles.introServices}>
+              <h1 className={styles.pageTitle}>{title}</h1>
+
+              <nav aria-label="Service index" className={styles.indexList}>
+                {services.map((service) => (
+                  <SectionLink
+                    key={service.id}
+                    href={`#${service.id}`}
+                    className={styles.indexLink}
+                  >
+                    <span className={styles.indexNumber}>{service.number}</span>
+                    <span className={styles.indexTitle}>{service.title}</span>
+                    <span className={styles.indexArrow} aria-hidden="true">
+                      ↓
+                    </span>
+                  </SectionLink>
+                ))}
+              </nav>
+            </div>
           </div>
-
-          <nav aria-label="Service index" className={styles.indexList}>
-            {services.map((service) => (
-              <SectionLink
-                key={service.id}
-                href={`#${service.id}`}
-                className={styles.indexLink}
-              >
-                <span className={styles.indexNumber}>{service.number}</span>
-                <span className={styles.indexTitle}>{service.title}</span>
-                <span className={styles.indexArrow} aria-hidden="true">
-                  ↓
-                </span>
-              </SectionLink>
-            ))}
-          </nav>
         </Container>
       </section>
 

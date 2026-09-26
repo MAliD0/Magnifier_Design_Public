@@ -26,7 +26,8 @@ export function CountryField({
   error,
   onChange,
   onComplete,
-}: ContactFieldProps<string>) {
+  embedded = false,
+}: ContactFieldProps<string> & { embedded?: boolean }) {
   const listboxId = useId();
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -135,7 +136,11 @@ export function CountryField({
   }
 
   return (
-    <ContactFieldShell label={field.label} error={error}>
+    <ContactFieldShell
+      label={field.label}
+      error={error}
+      embedded={embedded}
+    >
       <div
         className={styles.countryPicker}
         onBlur={handleBlur}

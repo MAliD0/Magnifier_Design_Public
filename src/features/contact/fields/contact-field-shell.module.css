@@ -8,6 +8,39 @@
   background: var(--surface);
 }
 
+.field[data-compact="true"] {
+  justify-content: center;
+  padding-block: clamp(1.25rem, 2.5vw, 2rem);
+}
+
+.field[data-compact="true"] .control {
+  width: 100%;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.embeddedField {
+  min-width: 0;
+}
+
+.embeddedField .control {
+  margin-top: 0.35rem;
+  padding-top: 0;
+}
+
+.embeddedField .input {
+  padding-block: 0.7rem;
+}
+
+.embeddedLabel {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 500;
+  line-height: 1.25;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
 .fieldHeader {
   display: flex;
   align-items: flex-start;
@@ -20,10 +53,11 @@
 }
 
 .label {
-  font-size: clamp(2rem, 4.5vw, 3.75rem);
-  font-weight: 400;
-  line-height: 0.95;
-  letter-spacing: -0.04em;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.25;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
 }
 
 .control {
@@ -274,6 +308,11 @@
   color: var(--muted);
   font-size: clamp(0.95rem, 1.5vw, 1.1rem);
   pointer-events: none;
+}
+
+.embeddedField .error {
+  min-height: 1rem;
+  margin-top: 0.2rem;
 }
 
 .error {

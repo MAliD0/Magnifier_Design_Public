@@ -14,13 +14,6 @@
   transition: width 240ms ease;
 }
 
-.container[data-field-count="3"] {
-  width: min(
-    calc(100% - (2 * var(--page-gutter))),
-    72rem
-  );
-}
-
 .progress {
   width: 100%;
 }
@@ -44,6 +37,13 @@
 .fieldGroup[data-field-count="3"] {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   align-items: stretch;
+}
+
+.contactDetailsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.7rem;
+  align-items: start;
 }
 
 .stepNavigation {
@@ -82,13 +82,6 @@
 }
 
 @media (max-width: 40rem) {
-  .container[data-field-count="3"] {
-    width: min(
-      calc(100% - (2 * var(--page-gutter))),
-      52rem
-    );
-  }
-
   .fieldGroup {
     height: auto;
   }

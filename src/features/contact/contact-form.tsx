@@ -3,12 +3,15 @@
 import { ProgressBar } from "@/components/ui/progress-bar";
 
 import { ContactFieldRenderer } from "./contact-field-renderer";
+import { ContactFieldShell } from "./fields";
 import { ContactFormNavigation } from "./contact-form-navigation";
 import styles from "./contact-form.module.css";
 import { useContactForm } from "./use-contact-form";
 
 export function ContactForm() {
   const form = useContactForm();
+  const isContactDetailsStep =
+    form.activeStep.id === "contact-details";
 
   function handleNext() {
     if (form.activeIndex === form.totalSteps - 1) {
@@ -51,27 +54,46 @@ export function ContactForm() {
         <div className={styles.workspace}>
           <div
             className={styles.fieldGroup}
-            data-field-count={form.activeFields.length}
+            data-field-count={
+              isContactDetailsStep
+                ? 1
+                : form.activeFields.length
+            }
           >
-            {form.activeFields.map((field) => (
-              <ContactFieldRenderer
-                key={field.id}
-                field={field}
-                value={form.values[field.id]}
-                error={form.errors[field.id]}
-                onChange={(value) =>
-                  form.updateValue(field.id, value)
-                }
-                onComplete={() => {
-                  if (form.activeFields.length > 1) {
-                    form.completeField(field.id);
-                    return;
+            {isContactDetailsStep ? (
+              <ContactFieldShell compact>
+                <div className={styles.contactDetailsGrid}>
+                  {form.activeFields.map((field) => (
+                    <ContactFieldRenderer
+                      key={field.id}
+                      field={field}
+                      value={form.values[field.id]}
+                      error={form.errors[field.id]}
+                      onChange={(value) =>
+                        form.updateValue(field.id, value)
+                      }
+                      onComplete={() =>
+                        form.completeField(field.id)
+                      }
+                      embedded
+                    />
+                  ))}
+                </div>
+              </ContactFieldShell>
+            ) : (
+              form.activeFields.map((field) => (
+                <ContactFieldRenderer
+                  key={field.id}
+                  field={field}
+                  value={form.values[field.id]}
+                  error={form.errors[field.id]}
+                  onChange={(value) =>
+                    form.updateValue(field.id, value)
                   }
-
-                  handleNext();
-                }}
-              />
-            ))}
+                  onComplete={handleNext}
+                />
+              ))
+            )}
           </div>
 
           <ContactFormNavigation

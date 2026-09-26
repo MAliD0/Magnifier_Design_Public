@@ -28,7 +28,8 @@ export function PhoneField({
   error,
   onChange,
   onComplete,
-}: ContactFieldProps<ContactPhoneValue>) {
+  embedded = false,
+}: ContactFieldProps<ContactPhoneValue> & { embedded?: boolean }) {
   const numberRef = useRef<HTMLInputElement>(null);
   const maxRegionDigits =
     field.validation?.maxRegionDigits ?? 4;
@@ -66,7 +67,11 @@ export function PhoneField({
   }
 
   return (
-    <ContactFieldShell label={field.label} error={error}>
+    <ContactFieldShell
+      label={field.label}
+      error={error}
+      embedded={embedded}
+    >
       <div className={styles.phoneControl}>
         <label className={styles.phoneSubfield}>
           <span className={styles.subfieldLabel}>Region</span>

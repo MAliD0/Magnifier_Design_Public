@@ -18,6 +18,7 @@ type ContactFieldRendererProps = {
   error?: string;
   onChange: (value: ContactFieldValue) => void;
   onComplete: () => void;
+  embedded?: boolean;
 };
 
 const emptyPhoneValue: ContactPhoneValue = {
@@ -36,6 +37,7 @@ export function ContactFieldRenderer({
   error,
   onChange,
   onComplete,
+  embedded = false,
 }: ContactFieldRendererProps) {
   switch (field.type) {
     case "phone": {
@@ -51,6 +53,7 @@ export function ContactFieldRenderer({
       return (
         <PhoneField
           field={field}
+          embedded={embedded}
           value={phoneValue}
           error={error}
           onChange={onChange}
@@ -63,6 +66,7 @@ export function ContactFieldRenderer({
       return (
         <EmailField
           field={field}
+          embedded={embedded}
           value={typeof value === "string" ? value : ""}
           error={error}
           onChange={onChange}
@@ -74,6 +78,7 @@ export function ContactFieldRenderer({
       return (
         <CountryField
           field={field}
+          embedded={embedded}
           value={typeof value === "string" ? value : ""}
           error={error}
           onChange={onChange}

@@ -19,29 +19,39 @@
   letter-spacing: 0.16em;
 }
 
-.introGrid {
+.introColumns {
   display: grid;
-  gap: 2rem;
-  margin-top: 2rem;
+  gap: clamp(3rem, 8vw, 6rem);
+}
+
+.introCopy,
+.introServices {
+  min-width: 0;
+}
+
+.introCopy {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 5vw, 4rem);
 }
 
 .pageTitle {
-  font-size: clamp(2.8rem, 8.8vw, 8.75rem);
-  font-weight: 400;
-  line-height: 0.82;
-  letter-spacing: -0.055em;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.25;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
 }
 
 .pageDescription {
-  max-width: 34rem;
-  align-self: end;
+  max-width: 30rem;
   color: var(--muted);
   font-size: clamp(1rem, 1.5vw, 1.25rem);
   line-height: 1.75;
 }
 
 .indexList {
-  margin-top: clamp(4rem, 8vw, 8rem);
+  margin-top: 1.5rem;
   border-bottom: var(--services-rule);
 }
 
@@ -82,6 +92,10 @@
   border-bottom: var(--services-rule);
 }
 
+.chapter:last-child {
+  border-bottom: 0;
+}
+
 .chapterGrid {
   display: grid;
   gap: 3rem;
@@ -114,6 +128,36 @@
   width: 100%;
   aspect-ratio: 4 / 3;
   margin-top: clamp(2.5rem, 5vw, 5rem);
+}
+
+.heroMedia::after {
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 5rem;
+  background: linear-gradient(
+    to top,
+    rgb(0 0 0 / 58%),
+    rgb(0 0 0 / 0%)
+  );
+  content: "";
+  pointer-events: none;
+}
+
+.heroMedia > span {
+  position: absolute;
+  z-index: 2;
+  right: 1rem;
+  bottom: 0.9rem;
+  left: 1rem;
+  width: auto;
+  color: rgb(255 255 255 / 88%);
+  font-size: 0.65rem;
+  line-height: 1.35;
+  text-wrap: balance;
+  pointer-events: none;
 }
 
 .introduction {
@@ -210,18 +254,15 @@
 }
 
 @media (min-width: 48rem) {
-  .introGrid {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    align-items: end;
+  .introColumns {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(3rem, 6vw, 7rem);
+    align-items: start;
   }
 
-  .pageTitle {
-    grid-column: span 8;
-  }
-
-  .pageDescription {
-    grid-column: span 4;
-    padding-bottom: 0.4rem;
+  .introCopy {
+    min-height: 100%;
+    padding-right: clamp(0rem, 2vw, 2rem);
   }
 
   .indexLink {
@@ -261,10 +302,6 @@
   .chapter {
     padding-block: clamp(4.5rem, 7vw, 8rem);
     border-bottom: 0;
-  }
-
-  .chapter:last-of-type {
-    border-bottom: var(--services-rule);
   }
 
   .chapterGrid {

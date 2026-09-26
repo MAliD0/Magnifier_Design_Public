@@ -10,7 +10,8 @@ export function EmailField({
   error,
   onChange,
   onComplete,
-}: ContactFieldProps<string>) {
+  embedded = false,
+}: ContactFieldProps<string> & { embedded?: boolean }) {
   function handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
     if (event.key === "Enter") {
       event.preventDefault();
@@ -19,7 +20,11 @@ export function EmailField({
   }
 
   return (
-    <ContactFieldShell label={field.label} error={error}>
+    <ContactFieldShell
+      label={field.label}
+      error={error}
+      embedded={embedded}
+    >
       <input
         type="email"
         data-transition-fade
