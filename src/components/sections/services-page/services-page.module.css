@@ -284,34 +284,27 @@
     text-align: right;
   }
 
-  .processGrid {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    gap: 2rem;
-  }
-
-  .processTitle {
-    grid-column: span 5;
-  }
-
-  .processCopy {
-    grid-column: 7 / span 6;
-  }
-}
-
-@media (min-width: 64rem) {
   .chapter {
-    padding-block: clamp(4.5rem, 7vw, 8rem);
+    display: flex;
+    height: 100svh;
+    min-height: 42rem;
+    align-items: center;
+    padding-block: clamp(1.5rem, 3.2svh, 2.75rem);
     border-bottom: 0;
   }
 
+  .chapter > * {
+    width: 100%;
+  }
+
   .chapterGrid {
+    display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
-    gap: 2rem;
+    gap: clamp(1.25rem, 2vw, 2rem);
+    align-items: start;
   }
 
   .chapterMeta {
-    position: sticky;
-    top: calc(var(--site-header-height) + 2rem);
     align-self: start;
     display: block;
     padding: 0;
@@ -338,7 +331,7 @@
   .chapterBody {
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
-    column-gap: 2rem;
+    column-gap: clamp(1.25rem, 2vw, 2rem);
     align-items: start;
   }
 
@@ -364,14 +357,18 @@
     grid-column: 8 / span 5;
   }
 
+  .chapter:nth-child(odd) .tagline,
   .chapter:nth-child(odd) .introduction,
-  .chapter:nth-child(odd) .processGrid {
-    padding-left: clamp(0rem, 1.5vw, 1.5rem);
+  .chapter:nth-child(odd) .processGrid,
+  .chapter:nth-child(odd) .chapterActions {
+    padding-left: clamp(0rem, 1vw, 1rem);
   }
 
+  .chapter:nth-child(even) .tagline,
   .chapter:nth-child(even) .introduction,
-  .chapter:nth-child(even) .processGrid {
-    padding-right: clamp(0rem, 1.5vw, 1.5rem);
+  .chapter:nth-child(even) .processGrid,
+  .chapter:nth-child(even) .chapterActions {
+    padding-right: clamp(0rem, 1vw, 1rem);
   }
 
   .tagline {
@@ -379,8 +376,9 @@
     display: block;
     width: 100%;
     max-width: none;
-    font-size: clamp(2.8rem, 4.8vw, 5.25rem);
-    line-height: 0.88;
+    font-size: clamp(1.55rem, 2.5vw, 2.75rem);
+    line-height: 1;
+    letter-spacing: -0.035em;
   }
 
   .tagline span {
@@ -388,51 +386,76 @@
   }
 
   .heroMedia {
-    grid-row: 1 / span 3;
+    grid-row: 1 / span 4;
     align-self: start;
     width: 100%;
+    height: min(64svh, 36rem);
     margin-top: 0;
+    aspect-ratio: auto;
   }
 
   .chapter:nth-child(odd) .heroMedia {
-    margin-top: clamp(3rem, 5vw, 5.5rem);
+    margin-top: 0;
   }
 
   .introduction {
     grid-row: 2;
     width: 100%;
-    margin-top: clamp(2.5rem, 4vw, 4rem);
+    margin-top: clamp(1.25rem, 2.4svh, 2rem);
     margin-left: 0;
+    font-size: clamp(0.9rem, 1.15vw, 1rem);
+    line-height: 1.65;
+  }
+
+  .introduction p:first-child {
+    font-size: clamp(1.05rem, 1.55vw, 1.35rem);
+    line-height: 1.42;
   }
 
   .processGrid {
     grid-row: 3;
     display: block;
     width: 100%;
-    margin-top: clamp(3.5rem, 5vw, 5.5rem);
+    margin-top: clamp(1.4rem, 2.8svh, 2.35rem);
+    padding-top: clamp(1rem, 1.8svh, 1.5rem);
+  }
+
+  .processTitle {
+    max-width: 18ch;
+    font-size: clamp(1.55rem, 2.5vw, 2.75rem);
+    line-height: 1;
+    letter-spacing: -0.035em;
+  }
+
+  .processCopy {
+    max-width: 100%;
+    gap: clamp(0.65rem, 1.2svh, 1rem);
+    margin-top: clamp(0.9rem, 1.7svh, 1.35rem);
+    font-size: clamp(0.78rem, 1vw, 0.9rem);
+    line-height: 1.55;
   }
 
   .chapterActions {
     grid-row: 4;
     width: 100%;
+    gap: 0.55rem;
+    margin-top: clamp(1.25rem, 2.4svh, 2rem);
   }
 
-  .processTitle {
-    max-width: 18ch;
-    font-size: clamp(1.9rem, 3vw, 3.25rem);
-    line-height: 1;
+  .projectCta {
+    padding: clamp(0.75rem, 1.5svh, 1rem) 1rem;
+    font-size: 0.7rem;
   }
 
-  .processCopy {
-    max-width: 100%;
-    margin-top: 1.75rem;
+  .backToTop {
+    font-size: 0.6rem;
   }
 
   .chapterName {
-    max-width: 12rem;
-    margin-top: 0.75rem;
+    max-width: 11rem;
+    margin-top: 0.6rem;
     text-align: left;
-    line-height: 1.55;
+    line-height: 1.45;
   }
 
   .chapter:nth-child(even) .chapterName {
@@ -445,33 +468,97 @@
     margin-left: 0;
   }
 
-  .chapter:nth-child(even) .processTitle {
-    justify-self: end;
+  .chapter:nth-child(even) .tagline,
+  .chapter:nth-child(even) .introduction,
+  .chapter:nth-child(even) .processTitle,
+  .chapter:nth-child(even) .processCopy {
     text-align: right;
   }
 
-  .chapter:nth-child(even) .processCopy {
-    text-align: left;
+  .chapter:nth-child(even) .processTitle {
+    margin-left: auto;
   }
 
-  .chapter[data-layout="wide"] .heroMedia {
-    aspect-ratio: 4 / 5;
+  .chapter:nth-child(even) .chapterActions {
+    align-items: flex-end;
   }
 
-  .chapter[data-layout="split"] .heroMedia {
-    aspect-ratio: 4 / 5;
+  .chapter:nth-child(even) .backToTop {
+    justify-content: flex-end;
+  }
+}
+
+@media (min-width: 64rem) {
+  .chapter {
+    min-height: 44rem;
+    padding-block: clamp(1.75rem, 3.4svh, 3rem);
   }
 
-  .chapter[data-layout="offset"] .heroMedia {
-    aspect-ratio: 1 / 1;
+  .chapterMeta {
+    position: sticky;
+    top: calc(var(--site-header-height) + 1.5rem);
   }
 
-  .chapter[data-layout="portrait"] .heroMedia {
-    aspect-ratio: 4 / 5;
+  .heroMedia {
+    height: min(68svh, 40rem);
   }
 
-  .chapter[data-layout="technical"] .heroMedia {
-    aspect-ratio: 4 / 5;
+  .tagline,
+  .processTitle {
+    font-size: clamp(1.55rem, 2.5vw, 2.75rem);
+  }
+
+  .introduction {
+    margin-top: clamp(1.4rem, 2.6svh, 2.2rem);
+  }
+
+  .processGrid {
+    margin-top: clamp(1.6rem, 3svh, 2.6rem);
+  }
+
+  .chapterActions {
+    margin-top: clamp(1.4rem, 2.6svh, 2.2rem);
+  }
+}
+
+@media (min-width: 48rem) and (max-height: 48rem) {
+  .chapter {
+    min-height: 100svh;
+    padding-block: 1.25rem;
+  }
+
+  .tagline,
+  .processTitle {
+    font-size: clamp(1.4rem, 2.2vw, 2.35rem);
+  }
+
+  .heroMedia {
+    height: min(58svh, 31rem);
+  }
+
+  .introduction {
+    margin-top: 1rem;
+  }
+
+  .processGrid {
+    margin-top: 1.15rem;
+    padding-top: 0.85rem;
+  }
+
+  .processCopy {
+    gap: 0.5rem;
+    margin-top: 0.7rem;
+    font-size: 0.76rem;
+    line-height: 1.45;
+  }
+
+  .chapterActions {
+    gap: 0.4rem;
+    margin-top: 1rem;
+  }
+
+  .projectCta {
+    padding-block: 0.65rem;
   }
 }
 
