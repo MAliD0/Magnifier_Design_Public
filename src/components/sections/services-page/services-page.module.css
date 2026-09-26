@@ -157,12 +157,20 @@
   line-height: 1.8;
 }
 
-.backToTop {
+.chapterActions {
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.9rem;
+  margin-top: clamp(3rem, 5vw, 5rem);
+}
+
+.projectCta {
+  display: flex;
+  width: 100%;
   align-items: center;
   justify-content: space-between;
   gap: 2rem;
-  margin-top: clamp(3rem, 5vw, 5rem);
   padding: 1.15rem 1.25rem;
   border: 1px solid var(--border);
   color: var(--foreground);
@@ -176,57 +184,29 @@
     color 180ms ease;
 }
 
-.backToTop span:last-child {
-  font-size: 1rem;
-  line-height: 1;
-}
-
-.backToTop:hover {
+.projectCta:hover {
   border-color: var(--foreground);
   background: var(--foreground);
   color: var(--background);
 }
 
-.finalCta {
-  padding-block: clamp(5rem, 9vw, 9rem);
-}
-
-.finalCtaFrame {
-  padding-block: clamp(2.5rem, 5vw, 4.5rem);
-  border-block: var(--services-rule);
-}
-
-.finalCtaEyebrow {
-  margin-bottom: 2rem;
+.backToTop {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
   color: var(--muted);
-  font-size: 0.72rem;
+  font-size: 0.66rem;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.1em;
+  transition:
+    color 180ms ease,
+    opacity 180ms ease;
 }
 
-.finalCtaLink {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 2rem;
-  font-family: var(--font-oregon-ldo), var(--font-century-gothic), sans-serif;
-  font-size: clamp(2.8rem, 7vw, 7rem);
-  font-weight: 400;
-  line-height: 0.9;
-  letter-spacing: -0.045em;
-  transition: opacity 180ms ease;
-}
-
-.finalCtaLink:hover {
-  opacity: 0.58;
-}
-
-.finalCtaArrow {
-  flex-shrink: 0;
-  padding-bottom: 0.08em;
-  font-family: var(--font-century-gothic), sans-serif;
-  font-size: 0.35em;
-  letter-spacing: 0;
+.backToTop:hover {
+  color: var(--foreground);
+  opacity: 0.7;
 }
 
 @media (min-width: 48rem) {
@@ -328,14 +308,14 @@
   .chapter:nth-child(odd) .tagline,
   .chapter:nth-child(odd) .introduction,
   .chapter:nth-child(odd) .processGrid,
-  .chapter:nth-child(odd) .backToTop {
+  .chapter:nth-child(odd) .chapterActions {
     grid-column: 7 / span 6;
   }
 
   .chapter:nth-child(even) .tagline,
   .chapter:nth-child(even) .introduction,
   .chapter:nth-child(even) .processGrid,
-  .chapter:nth-child(even) .backToTop {
+  .chapter:nth-child(even) .chapterActions {
     grid-column: 1 / span 6;
   }
 
@@ -395,7 +375,7 @@
     margin-top: clamp(3.5rem, 5vw, 5.5rem);
   }
 
-  .backToTop {
+  .chapterActions {
     grid-row: 4;
     width: 100%;
   }
@@ -460,8 +440,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .indexLink,
-  .backToTop,
-  .finalCtaLink {
+  .projectCta,
+  .backToTop {
     transition: none;
   }
 }

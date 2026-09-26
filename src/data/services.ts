@@ -43,7 +43,6 @@ export const servicesPageItems = [
     tagline: ["Your Home.", "Your Way."],
     introduction: [
       "Your home should reflect the way you live — how you move through it, what you need from each room and the atmosphere you want to return to every day.",
-      "We design apartments, houses and villas with a balance of function, proportion and character. From the overall layout to materials, lighting and furniture, each decision is considered as part of one coherent interior.",
     ],
     processTitle: "Understanding How You Live",
     process: [
@@ -64,7 +63,7 @@ export const servicesPageItems = [
     tagline: ["Your Brand.", "Your Space."],
     introduction: [
       "An interior shapes how people experience your business — how they feel when they arrive, how easily they find their way and what they remember when they leave.",
-      "We design hotels, restaurants, cafés and commercial spaces that express your brand and support the way your business operates. The aim is to create a place that welcomes your guests and customers, works for your team and has a character of its own.",
+      "We design hotels, restaurants, cafés and commercial spaces that express your brand and support the way your business operates.",
     ],
     processTitle: "Understanding What Your Business Needs",
     process: [
@@ -85,7 +84,6 @@ export const servicesPageItems = [
     tagline: ["Bring Your Space", "Together."],
     introduction: [
       "Sometimes the room is there, but it doesn’t quite feel complete. The furniture, lighting and details may work individually, yet something is missing in the way they come together.",
-      "We help you refresh an existing interior or complete a newly designed space through furniture, textiles, lighting, art and accessories. Each selection considers proportion, colour, texture and placement, creating a space that feels considered, comfortable and personal.",
     ],
     processTitle: "Working With What You Have",
     process: [
@@ -106,13 +104,10 @@ export const servicesPageItems = [
     tagline: ["From Selection", "to Sourcing."],
     introduction: [
       "Finding the right piece is only part of the process. Dimensions, finishes, availability, lead times and delivery arrangements all need to work for your project.",
-      "We help source and purchase furniture, lighting, finishes and accessories, bringing the agreed selections into a coordinated purchasing process. You have a clear overview of the proposed items, costs and timing before orders are placed.",
     ],
     processTitle: "Coordinating the Details",
     process: [
-      "We begin with your approved selections or a defined list of requirements, then agree the budget, priorities and scope of purchasing support.",
-      "We liaise with suppliers to confirm specifications, pricing and availability. Where an item is unavailable or unsuitable, we present alternatives for your approval, considering their impact on the design, cost and schedule.",
-      "Order tracking and delivery coordination are included where agreed, with responsibilities and purchasing terms established from the outset.",
+      "We help source and purchase furniture, lighting, finishes and accessories, bringing the agreed selections into a coordinated purchasing process. You have a clear overview of the proposed items, costs and timing before orders are placed.",
     ],
     cta: "Tell us about your project",
     layout: "portrait",
@@ -128,12 +123,10 @@ export const servicesPageItems = [
     tagline: ["Keeping the Design", "in Focus."],
     introduction: [
       "During implementation, questions arise: a material becomes unavailable, a detail needs clarification or a proposed change affects the surrounding design.",
-      "We help your project team work through these decisions with the approved design in mind, paying attention to the proportions, finishes and relationships that give the interior its character.",
     ],
     processTitle: "Supporting Your Project Team",
     process: [
       "We begin by reviewing the approved design, the implementation schedule and the people involved. Together, we agree where our input is needed and how communication, reviews and any site visits will be organised.",
-      "During the agreed period, we clarify design details, review proposed samples and substitutions, and discuss design-related questions with your contractors and suppliers. Where changes are needed, we explain their implications so you can make an informed decision.",
       "Our role focuses on design intent. Construction management, site safety and technical inspections remain with the appointed contractors and qualified specialists.",
     ],
     cta: "Discuss support for your project",

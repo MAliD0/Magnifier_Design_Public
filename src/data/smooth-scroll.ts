@@ -2,7 +2,7 @@ export const smoothScrollConfig = {
   enabled: true,
 
   // 0 = never reaches target, 1 = immediate. Lower values feel smoother.
-  lerpFactor: 0.12,
+  lerpFactor: 0.05,
   wheelMultiplier: 1,
   stopThresholdPx: 0.5,
 

@@ -95,13 +95,23 @@ export function ServicesPageSection({
                     </div>
                   </div>
 
-                  <SectionLink
-                    href="#services-top"
-                    className={styles.backToTop}
-                  >
-                    <span>Back to services</span>
-                    <span aria-hidden="true">↑</span>
-                  </SectionLink>
+                  <div className={styles.chapterActions}>
+                    <Link
+                      href="/contact"
+                      className={styles.projectCta}
+                    >
+                      <span>Tell us about your project</span>
+                      <span aria-hidden="true">→</span>
+                    </Link>
+
+                    <SectionLink
+                      href="#services-top"
+                      className={styles.backToTop}
+                    >
+                      <span aria-hidden="true">↑</span>
+                      <span>Back to services</span>
+                    </SectionLink>
+                  </div>
                 </div>
               </div>
             </Container>
@@ -109,19 +119,6 @@ export function ServicesPageSection({
         ))}
       </div>
 
-      <section className={styles.finalCta}>
-        <Container>
-          <div className={styles.finalCtaFrame}>
-            <p className={styles.finalCtaEyebrow}>Start a project</p>
-            <Link href="/contact" className={styles.finalCtaLink}>
-              <span>Tell us about your project</span>
-              <span className={styles.finalCtaArrow} aria-hidden="true">
-                →
-              </span>
-            </Link>
-          </div>
-        </Container>
-      </section>
     </div>
   );
 }
