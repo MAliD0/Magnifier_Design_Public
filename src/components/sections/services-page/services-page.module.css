@@ -288,7 +288,7 @@
     display: flex;
     height: 100svh;
     min-height: 42rem;
-    align-items: center;
+    align-items: flex-start;
     padding-block: clamp(1.5rem, 3.2svh, 2.75rem);
     border-bottom: 0;
   }

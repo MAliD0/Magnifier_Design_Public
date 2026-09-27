@@ -10,6 +10,8 @@ type SectionLinkProps = Omit<
   "href"
 > & {
   href: `#${string}`;
+  scrollBlock?: "start" | "center" | "end" | "nearest";
+  scrollTargetId?: string;
 };
 
 function isModifiedClick(event: MouseEvent<HTMLAnchorElement>) {
@@ -26,6 +28,8 @@ export function SectionLink({
   href,
   onClick,
   target,
+  scrollBlock = "start",
+  scrollTargetId,
   ...props
 }: SectionLinkProps) {
   function handleClick(event: MouseEvent<HTMLAnchorElement>) {
@@ -40,7 +44,9 @@ export function SectionLink({
     }
 
     const targetId = decodeURIComponent(href.slice(1));
-    const section = document.getElementById(targetId);
+    const section = document.getElementById(
+      scrollTargetId ?? targetId,
+    );
 
     if (!section) {
       return;
@@ -54,7 +60,7 @@ export function SectionLink({
 
     section.scrollIntoView({
       behavior: prefersReducedMotion ? "auto" : "smooth",
-      block: "start",
+      block: scrollBlock,
     });
 
     if (window.location.hash !== href) {

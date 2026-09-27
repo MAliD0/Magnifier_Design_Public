@@ -38,6 +38,8 @@ export function ServicesPageSection({
                   <SectionLink
                     key={service.id}
                     href={`#${service.id}`}
+                    scrollTargetId={`${service.id}-content`}
+                    scrollBlock="center"
                     className={styles.indexLink}
                   >
                     <span className={styles.indexNumber}>{service.number}</span>
@@ -62,7 +64,10 @@ export function ServicesPageSection({
             data-layout={service.layout}
           >
             <Container>
-              <div className={styles.chapterGrid}>
+              <div
+                id={`${service.id}-content`}
+                className={styles.chapterGrid}
+              >
                 <div className={styles.chapterMeta}>
                   <span className={styles.chapterNumber}>{service.number}</span>
                   <p className={styles.chapterName}>{service.title}</p>
