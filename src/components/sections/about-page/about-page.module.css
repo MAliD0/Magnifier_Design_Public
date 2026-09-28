@@ -1,0 +1,290 @@
+.page {
+  --about-rule: 1px solid var(--border);
+  overflow: clip;
+}
+
+.hero {
+  display: flex;
+  min-height: min(46rem, calc(100svh - var(--site-header-height)));
+  padding-block: clamp(2rem, 4svh, 3.5rem);
+}
+
+.heroContainer {
+  display: flex;
+}
+
+.heroGrid {
+  display: grid;
+  width: 100%;
+  column-gap: clamp(2rem, 4vw, 4rem);
+  row-gap: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.heroHeading,
+.founder,
+.heroQuote {
+  min-width: 0;
+}
+
+.eyebrow,
+.sectionMarker {
+  color: var(--muted);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  max-width: 14ch;
+  margin-top: clamp(1.25rem, 2vw, 2rem);
+  font-size: clamp(3rem, 5vw, 4.5rem);
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+}
+
+.portrait {
+  width: 100%;
+  min-height: 23rem;
+  aspect-ratio: 4 / 5;
+}
+
+.founder {
+  max-width: 31rem;
+  font-size: clamp(1.15rem, 2vw, 1.65rem);
+  line-height: 1.55;
+}
+
+.heroQuote {
+  max-width: 28rem;
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(0.78rem, 1vw, 0.9rem);
+  line-height: 1.7;
+}
+
+.story,
+.practice {
+  padding-block: clamp(4rem, 7vw, 7rem);
+}
+
+.storyGrid {
+  display: grid;
+  gap: clamp(2rem, 5vw, 5rem);
+}
+
+.sectionMarker {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-top: 1rem;
+  border-top: var(--about-rule);
+}
+
+.projectMedia,
+.detailMedia,
+.processMedia {
+  width: 100%;
+}
+
+.projectMedia {
+  aspect-ratio: 4 / 3;
+}
+
+.detailMedia {
+  aspect-ratio: 5 / 4;
+}
+
+.experience,
+.philosophy,
+.practiceCopy {
+  font-size: clamp(1.05rem, 1.55vw, 1.35rem);
+  line-height: 1.75;
+}
+
+.experience {
+  max-width: 35rem;
+}
+
+.philosophyBlock {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.philosophy {
+  max-width: 39rem;
+  font-size: clamp(1.05rem, 1.55vw, 1.35rem);
+  line-height: 1.75;
+}
+
+.practiceGrid {
+  display: grid;
+  gap: clamp(2rem, 4vw, 4rem);
+}
+
+.practiceCopy {
+  display: grid;
+  gap: 1.5rem;
+  max-width: 40rem;
+}
+
+.processMedia {
+  min-height: 22rem;
+  aspect-ratio: 16 / 10;
+}
+
+.contactLink {
+  display: flex;
+  min-height: clamp(10rem, 20vw, 17rem);
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  font-family:
+    var(--font-oregon-ldo),
+    var(--font-century-gothic),
+    sans-serif;
+  font-size: clamp(2.4rem, 5vw, 5.25rem);
+  font-weight: 400;
+  line-height: 0.92;
+  letter-spacing: -0.045em;
+  transition: opacity 180ms ease;
+}
+
+.contactLink:hover {
+  opacity: 0.58;
+}
+
+.contactLink > span:first-child {
+  max-width: 10ch;
+}
+
+.contactLink > span:last-child {
+  flex-shrink: 0;
+  font-size: 0.55em;
+}
+
+@media (min-width: 48rem) {
+  .heroGrid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-template-rows: auto auto;
+    align-content: start;
+    align-items: start;
+  }
+
+  .heroHeading {
+    grid-column: 1 / span 8;
+    grid-row: 1;
+  }
+
+  .portrait {
+    grid-column: 9 / span 4;
+    grid-row: 1 / span 2;
+    height: min(58svh, 36rem);
+    min-height: 27rem;
+    aspect-ratio: auto;
+  }
+
+  .founder {
+    grid-column: 1 / span 5;
+    grid-row: 2;
+    align-self: start;
+  }
+
+  .heroQuote {
+    grid-column: 6 / span 3;
+    grid-row: 2;
+    align-self: start;
+  }
+
+  .storyGrid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: clamp(1.5rem, 3vw, 3rem);
+    row-gap: clamp(3.5rem, 7vw, 6.5rem);
+    align-items: start;
+  }
+
+  .storyGrid > .sectionMarker {
+    grid-column: 1 / span 2;
+    grid-row: 1;
+  }
+
+  .projectMedia {
+    grid-column: 3 / span 5;
+    grid-row: 1;
+  }
+
+  .experience {
+    grid-column: 9 / span 4;
+    grid-row: 1;
+    padding-top: 1rem;
+  }
+
+  .philosophyBlock {
+    grid-column: 2 / span 5;
+    grid-row: 2;
+  }
+
+  .detailMedia {
+    grid-column: 8 / span 5;
+    grid-row: 2;
+    margin-top: clamp(1.5rem, 4vw, 3.5rem);
+  }
+
+  .practiceGrid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: clamp(1.5rem, 3vw, 3rem);
+    align-items: start;
+  }
+
+  .practiceGrid > .sectionMarker {
+    grid-column: 1 / span 2;
+  }
+
+  .practiceCopy {
+    grid-column: 3 / span 4;
+  }
+
+  .processMedia {
+    grid-column: 8 / span 5;
+    min-height: 28rem;
+    aspect-ratio: auto;
+  }
+}
+
+@media (min-width: 64rem) {
+  .hero {
+    padding-block: clamp(2.25rem, 4svh, 3.5rem);
+  }
+
+  .title {
+    font-size: 4.5rem;
+  }
+
+  .projectMedia {
+    aspect-ratio: 5 / 4;
+  }
+
+  .philosophyBlock {
+    grid-column: 2 / span 6;
+  }
+
+  .detailMedia {
+    grid-column: 9 / span 4;
+  }
+
+  .practiceCopy {
+    grid-column: 4 / span 4;
+  }
+
+  .processMedia {
+    grid-column: 9 / span 4;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contactLink {
+    transition: none;
+  }
+}

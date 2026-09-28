@@ -1,19 +1,13 @@
 import type { Metadata } from "next";
 
-import { PageIntro } from "@/components/ui/page-intro";
+import { AboutPageSection } from "@/components/sections/about-page";
 
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Learn about Magnifier Design, its approach, philosophy, and interior design practice.",
+    "Meet Roza Goseling, founder of Magnifier Design, and discover the studio’s approach to interiors, furniture, materials and detail.",
 };
 
 export default function AboutPage() {
-  return (
-    <PageIntro
-      eyebrow="Studio"
-      title="About"
-      description="This page will introduce the studio, its design philosophy, team, and the principles behind each project."
-    />
-  );
+  return <AboutPageSection />;
 }
