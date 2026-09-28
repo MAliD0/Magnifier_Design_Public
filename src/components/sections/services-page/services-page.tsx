@@ -23,7 +23,7 @@ export function ServicesPageSection({
   return (
     <div className={styles.page} data-site-section="services-page">
       <section id="services-top" className={styles.intro}>
-        <Container>
+        <Container className={styles.introContainer}>
           <div className={styles.introColumns}>
             <div className={styles.introCopy}>
               <p className={styles.eyebrow}>{eyebrow}</p>

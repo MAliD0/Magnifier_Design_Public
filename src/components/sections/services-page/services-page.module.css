@@ -4,9 +4,18 @@
 }
 
 .intro {
-  padding-block:
-    clamp(4rem, 8vw, 8rem)
-    clamp(5rem, 10vw, 10rem);
+  display: flex;
+  min-height: calc(100svh - var(--site-header-height));
+  padding-block: clamp(2.5rem, 5svh, 4.5rem);
+}
+
+.introContainer {
+  display: flex;
+  width: 100%;
+}
+
+.introColumns {
+  flex: 1;
 }
 
 .eyebrow,
@@ -257,12 +266,33 @@
   .introColumns {
     grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
     gap: clamp(3rem, 6vw, 7rem);
-    align-items: start;
+    align-items: stretch;
+  }
+
+  .introCopy,
+  .introServices {
+    min-height: 0;
   }
 
   .introCopy {
-    min-height: 100%;
     padding-right: clamp(0rem, 2vw, 2rem);
+  }
+
+  .introServices {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .introServices .indexList {
+    display: flex;
+    min-height: 0;
+    flex: 1;
+    flex-direction: column;
+  }
+
+  .introServices .indexLink {
+    min-height: 4rem;
+    flex: 1;
   }
 
   .indexLink {
