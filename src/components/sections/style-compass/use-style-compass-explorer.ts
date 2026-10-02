@@ -37,32 +37,6 @@ type UseStyleCompassExplorerArgs = {
   selectOption: SelectOption;
 };
 
-function getNextUnansweredCategory(
-  currentCategoryId: StyleCompassCategoryId,
-  selections: StyleCompassSelections,
-) {
-  const currentIndex = styleCompassCategories.findIndex(
-    (category) => category.id === currentCategoryId,
-  );
-
-  for (
-    let offset = 1;
-    offset <= styleCompassCategories.length;
-    offset += 1
-  ) {
-    const category =
-      styleCompassCategories[
-        (currentIndex + offset) % styleCompassCategories.length
-      ];
-
-    if (selections[category.id] === null) {
-      return category;
-    }
-  }
-
-  return null;
-}
-
 function visibleCornerRadius(
   value: string,
   width: number,
@@ -382,20 +356,10 @@ export function useStyleCompassExplorer({
       clearSelectionDelay();
       selectOption(categoryId, optionId);
 
-      const nextSelections: StyleCompassSelections = {
-        ...selections,
-        [categoryId]: optionId,
-      };
-      const nextCategory = getNextUnansweredCategory(
-        categoryId,
-        nextSelections,
-      );
-
       pendingCategoryRef.current = null;
 
       selectionDelayTimerRef.current = setTimeout(() => {
         selectionDelayTimerRef.current = null;
-        pendingCategoryRef.current = nextCategory?.id ?? null;
         beginClose(categoryId);
       }, styleCompassConfig.selectionConfirmationDelayMs);
     },
@@ -405,7 +369,6 @@ export function useStyleCompassExplorer({
       displayedCategoryId,
       explorerOpen,
       selectOption,
-      selections,
     ],
   );
 
@@ -433,6 +396,15 @@ export function useStyleCompassExplorer({
 
     const categoryId = displayedCategoryId;
 
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key !== "Escape") {
+        return;
+      }
+
+      pendingCategoryRef.current = null;
+      beginClose(categoryId);
+    }
+
     function handlePointerDown(event: PointerEvent) {
       const target = event.target;
 
@@ -452,11 +424,19 @@ export function useStyleCompassExplorer({
       "pointerdown",
       handlePointerDown,
     );
+    document.addEventListener(
+      "keydown",
+      handleKeyDown,
+    );
 
     return () => {
       document.removeEventListener(
         "pointerdown",
         handlePointerDown,
+      );
+      document.removeEventListener(
+        "keydown",
+        handleKeyDown,
       );
     };
   }, [

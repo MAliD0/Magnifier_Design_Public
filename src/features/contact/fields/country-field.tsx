@@ -147,6 +147,7 @@ export function CountryField({
       >
         <input
           type="text"
+          data-transition-fade
           name={field.id}
           value={value}
           onChange={handleChange}

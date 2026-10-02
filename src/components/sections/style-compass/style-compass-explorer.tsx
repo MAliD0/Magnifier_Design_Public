@@ -4,8 +4,9 @@ import {
   useState,
 } from "react";
 
-import { PlaceholderImage } from "@/components/ui/placeholder-image";
 import { ProgressBar } from "@/components/ui/progress-bar";
+import { StyleCompassMedia } from "@/features/style-compass/media/style-compass-media";
+import { preloadStyleCompassOptionMedia } from "@/features/style-compass/media/style-compass-media-cache";
 
 import styles from "./style-compass.module.css";
 import type {
@@ -46,8 +47,11 @@ export function StyleCompassExplorer({
   onClose,
 }: StyleCompassExplorerProps) {
   const [hasOpened, setHasOpened] = useState(open);
-  const option = category.options[optionIndex] ?? category.options[0];
-  const isSelected = selectedOptionId === option.id;
+  const option =
+    category.options[optionIndex] ??
+    category.options[0];
+  const isSelected =
+    selectedOptionId === option.id;
   const closing = hasOpened && !open;
 
   useEffect(() => {
@@ -55,6 +59,29 @@ export function StyleCompassExplorer({
       setHasOpened(true);
     }
   }, [open]);
+
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+
+    const length = category.options.length;
+    const previous =
+      category.options[
+        (optionIndex - 1 + length) % length
+      ];
+    const next =
+      category.options[(optionIndex + 1) % length];
+
+    void preloadStyleCompassOptionMedia(option);
+    void preloadStyleCompassOptionMedia(previous);
+    void preloadStyleCompassOptionMedia(next);
+  }, [
+    category.options,
+    open,
+    option,
+    optionIndex,
+  ]);
 
   function handleActiveFieldClick(
     event: MouseEvent<HTMLDivElement>,
@@ -78,7 +105,7 @@ export function StyleCompassExplorer({
       onClick={handleActiveFieldClick}
       className={styles.explorer}
       data-open={open}
-      data-tone={option.tone}
+      data-tone={category.tone}
       style={{
         left: open ? 0 : collapsedBox.left,
         top: open ? 0 : collapsedBox.top,
@@ -93,10 +120,11 @@ export function StyleCompassExplorer({
         className={styles.explorerMedia}
         data-closing={closing}
       >
-        <PlaceholderImage
+        <StyleCompassMedia
           key={option.id}
-          label={option.label}
-          tone={option.tone}
+          option={option}
+          fallbackTone={category.tone}
+          active={open || hasOpened}
           className={styles.explorerImage}
         />
       </div>
@@ -112,12 +140,20 @@ export function StyleCompassExplorer({
         <div className={styles.explorerBottom}>
           <div className={styles.controls}>
             <div className={styles.controlLabelGroup}>
-              <span className={styles.explorerCategoryLabel}>
+              <span
+                className={
+                  styles.explorerCategoryLabel
+                }
+              >
                 {category.label}
               </span>
             </div>
 
-            <div className={styles.controlActionsGroup}>
+            <div
+              className={
+                styles.controlActionsGroup
+              }
+            >
               <button
                 type="button"
                 onClick={onPrevious}
@@ -142,7 +178,9 @@ export function StyleCompassExplorer({
                 className={styles.selectButton}
                 data-selected={isSelected}
               >
-                {isSelected ? "Selected ✓" : "Select"}
+                {isSelected
+                  ? "Selected ✓"
+                  : "Select"}
               </button>
             </div>
           </div>

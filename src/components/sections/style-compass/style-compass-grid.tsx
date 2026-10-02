@@ -1,4 +1,4 @@
-import { PlaceholderImage } from "@/components/ui/placeholder-image";
+import { StyleCompassMedia } from "@/features/style-compass/media/style-compass-media";
 
 import styles from "./style-compass.module.css";
 import type {
@@ -11,6 +11,7 @@ type StyleCompassGridProps = {
   categories: readonly StyleCompassCategory[];
   selections: StyleCompassSelections;
   activeCategoryId: StyleCompassCategoryId | null;
+  mediaActive: boolean;
   onOpen: (
     categoryId: StyleCompassCategoryId,
     source: HTMLButtonElement,
@@ -21,18 +22,21 @@ export function StyleCompassGrid({
   categories,
   selections,
   activeCategoryId,
+  mediaActive,
   onOpen,
 }: StyleCompassGridProps) {
   return (
     <div className={styles.grid}>
       {categories.map((category) => {
-        const isActive = category.id === activeCategoryId;
-        const selectedOptionId = selections[category.id];
-        const selectedOption = category.options.find(
-          (option) => option.id === selectedOptionId,
-        );
-        const displayTone =
-          selectedOption?.tone ?? category.tone;
+        const isActive =
+          category.id === activeCategoryId;
+        const selectedOptionId =
+          selections[category.id];
+        const selectedOption =
+          category.options.find(
+            (option) =>
+              option.id === selectedOptionId,
+          );
 
         return (
           <button
@@ -42,18 +46,22 @@ export function StyleCompassGrid({
             data-active={isActive}
             data-selected={Boolean(selectedOption)}
             data-texture={category.id === "texture"}
-            data-tone={displayTone}
+            data-tone={category.tone}
             data-shape={category.shape}
             onClick={(event) =>
-              onOpen(category.id, event.currentTarget)
+              onOpen(
+                category.id,
+                event.currentTarget,
+              )
             }
             aria-pressed={isActive}
             className={styles.category}
           >
             {selectedOption ? (
-              <PlaceholderImage
-                label={selectedOption.label}
-                tone={selectedOption.tone}
+              <StyleCompassMedia
+                option={selectedOption}
+                fallbackTone={category.tone}
+                active={mediaActive}
                 className={styles.selectedVisual}
               />
             ) : null}

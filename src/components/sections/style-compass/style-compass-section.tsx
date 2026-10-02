@@ -1,6 +1,7 @@
 "use client";
 
 import type { CSSProperties } from "react";
+import { useEffect } from "react";
 
 import { StyleCompassExplorer } from "@/components/sections/style-compass/style-compass-explorer";
 import { StyleCompassGrid } from "@/components/sections/style-compass/style-compass-grid";
@@ -16,6 +17,8 @@ import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { styleCompassConfig } from "@/data/home";
 import { styleCompassCategories } from "@/data/style-compass";
+import { preloadStyleCompassOptionMedia } from "@/features/style-compass/media/style-compass-media-cache";
+import { useStyleCompassMediaActivation } from "@/features/style-compass/media/use-style-compass-media-activation";
 
 import styles from "./style-compass.module.css";
 
@@ -72,6 +75,27 @@ export function StyleCompassSection({
     selectOption,
   });
 
+  const mediaActive =
+    useStyleCompassMediaActivation(
+      explorer.compassRef,
+    );
+
+  useEffect(() => {
+    if (!mediaActive) {
+      return;
+    }
+
+    for (const category of styleCompassCategories) {
+      if (category.id === "colour") {
+        continue;
+      }
+
+      void preloadStyleCompassOptionMedia(
+        category.options[0],
+      );
+    }
+  }, [mediaActive]);
+
   const canAnalyze =
     status === "complete" &&
     explorer.displayedCategoryId === null;
@@ -96,6 +120,7 @@ export function StyleCompassSection({
               categories={styleCompassCategories}
               selections={selections}
               activeCategoryId={explorer.displayedCategoryId}
+              mediaActive={mediaActive}
               onOpen={explorer.openCategory}
             />
 
@@ -134,12 +159,12 @@ export function StyleCompassSection({
               <button
                 type="button"
                 onPointerDown={(event) => event.stopPropagation()}
-                onClick={analyze}
+                onClick={() => void analyze()}
                 disabled={!canAnalyze}
                 className={styles.analyzeButton}
                 data-enabled={canAnalyze}
               >
-                Analyze my style
+                Review my style direction
               </button>
 
               <button
@@ -167,7 +192,7 @@ export function StyleCompassSection({
 
             <p className={styles.note}>
               {status === "complete"
-                ? "Review any field before analysis if you want to change the final selection set."
+                ? "Review any field before continuing if you want to change the final selection set."
                 : "Select one option in each field. Your progress is shown above."}
             </p>
           </div>

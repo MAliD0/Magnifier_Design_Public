@@ -5,12 +5,17 @@
 
 .hero {
   display: flex;
-  min-height: min(46rem, calc(100svh - var(--site-header-height)));
+  min-height: calc(100svh - var(--site-header-height));
   padding-block: clamp(2rem, 4svh, 3.5rem);
 }
 
 .heroContainer {
   display: flex;
+  flex: 1;
+}
+
+.heroGrid {
+  min-height: 100%;
 }
 
 .heroGrid {
@@ -21,8 +26,7 @@
 }
 
 .heroHeading,
-.founder,
-.heroQuote {
+.founder {
   min-width: 0;
 }
 
@@ -55,14 +59,6 @@
   max-width: 31rem;
   font-size: clamp(1.15rem, 2vw, 1.65rem);
   line-height: 1.55;
-}
-
-.heroQuote {
-  max-width: 28rem;
-  margin: 0;
-  color: var(--muted);
-  font-size: clamp(0.78rem, 1vw, 0.9rem);
-  line-height: 1.7;
 }
 
 .story,
@@ -98,25 +94,29 @@
 }
 
 .experience,
-.philosophy,
+.approachBlock,
 .practiceCopy {
-  font-size: clamp(1.05rem, 1.55vw, 1.35rem);
-  line-height: 1.75;
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
 }
 
 .experience {
   max-width: 35rem;
 }
 
-.philosophyBlock {
-  display: grid;
-  gap: clamp(1.5rem, 3vw, 2.5rem);
+.sectionTitle {
+  max-width: 18ch;
+  font-size: clamp(1.55rem, 2.5vw, 2.75rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.035em;
 }
 
-.philosophy {
-  max-width: 39rem;
-  font-size: clamp(1.05rem, 1.55vw, 1.35rem);
-  line-height: 1.75;
+.sectionCopy {
+  display: grid;
+  gap: 1.25rem;
+  font-size: clamp(1rem, 1.35vw, 1.18rem);
+  line-height: 1.7;
 }
 
 .practiceGrid {
@@ -125,8 +125,6 @@
 }
 
 .practiceCopy {
-  display: grid;
-  gap: 1.5rem;
   max-width: 40rem;
 }
 
@@ -135,32 +133,42 @@
   aspect-ratio: 16 / 10;
 }
 
-.contactLink {
+.actionsSection {
+  padding-top: clamp(2rem, 4vw, 4rem);
+}
+
+.actionLinks {
+  display: grid;
+  border-top: var(--about-rule);
+}
+
+.actionLink {
   display: flex;
-  min-height: clamp(10rem, 20vw, 17rem);
+  min-height: clamp(8rem, 16vw, 13rem);
   align-items: center;
   justify-content: space-between;
   gap: 2rem;
+  border-bottom: var(--about-rule);
   font-family:
     var(--font-oregon-ldo),
     var(--font-century-gothic),
     sans-serif;
-  font-size: clamp(2.4rem, 5vw, 5.25rem);
+  font-size: clamp(2rem, 4vw, 4.25rem);
   font-weight: 400;
-  line-height: 0.92;
-  letter-spacing: -0.045em;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
   transition: opacity 180ms ease;
 }
 
-.contactLink:hover {
+.actionLink:hover {
   opacity: 0.58;
 }
 
-.contactLink > span:first-child {
-  max-width: 10ch;
+.actionLink > span:first-child {
+  max-width: 13ch;
 }
 
-.contactLink > span:last-child {
+.actionLink > span:last-child {
   flex-shrink: 0;
   font-size: 0.55em;
 }
@@ -187,13 +195,7 @@
   }
 
   .founder {
-    grid-column: 1 / span 5;
-    grid-row: 2;
-    align-self: start;
-  }
-
-  .heroQuote {
-    grid-column: 6 / span 3;
+    grid-column: 1 / span 7;
     grid-row: 2;
     align-self: start;
   }
@@ -221,7 +223,7 @@
     padding-top: 1rem;
   }
 
-  .philosophyBlock {
+  .approachBlock {
     grid-column: 2 / span 5;
     grid-row: 2;
   }
@@ -253,6 +255,21 @@
   }
 }
 
+@media (min-width: 48rem) {
+  .actionLinks {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .actionLink:first-child {
+    padding-right: clamp(2rem, 4vw, 4rem);
+    border-right: var(--about-rule);
+  }
+
+  .actionLink:last-child {
+    padding-left: clamp(2rem, 4vw, 4rem);
+  }
+}
+
 @media (min-width: 64rem) {
   .hero {
     padding-block: clamp(2.25rem, 4svh, 3.5rem);
@@ -266,7 +283,7 @@
     aspect-ratio: 5 / 4;
   }
 
-  .philosophyBlock {
+  .approachBlock {
     grid-column: 2 / span 6;
   }
 
@@ -284,7 +301,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .contactLink {
+  .actionLink {
     transition: none;
   }
 }

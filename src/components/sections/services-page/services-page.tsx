@@ -26,13 +26,14 @@ export function ServicesPageSection({
         <Container className={styles.introContainer}>
           <div className={styles.introColumns}>
             <div className={styles.introCopy}>
-              <p className={styles.eyebrow}>{eyebrow}</p>
-              <p className={styles.pageDescription}>{description}</p>
+              <div className={styles.introHeading}>
+                <p className={styles.eyebrow}>{eyebrow}</p>
+                <h1 className={styles.pageTitle}>{title}</h1>
+                <p className={styles.pageDescription}>{description}</p>
+              </div>
             </div>
 
             <div className={styles.introServices}>
-              <h1 className={styles.pageTitle}>{title}</h1>
-
               <nav aria-label="Service index" className={styles.indexList}>
                 {services.map((service) => (
                   <SectionLink
@@ -109,7 +110,7 @@ export function ServicesPageSection({
                       href="/contact"
                       className={styles.projectCta}
                     >
-                      <span>Tell us about your project</span>
+                      <span>{service.cta}</span>
                       <span aria-hidden="true">→</span>
                     </Link>
 

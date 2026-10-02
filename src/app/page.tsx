@@ -17,23 +17,23 @@ export default function HomePage() {
 
       <LatestProjects
         projects={homeLatestProjects}
-        index="01"
+        index=""
         title="Projects"
       />
 
       <ServicesSection
         services={homeServices}
-        index="02"
+        index=""
         title="Services"
       />
 
       <DesignProcessSection
         stages={designProcessStages}
-        index="03"
+        index=""
         title="Design Process"
       />
 
-      <StyleCompassSection index="04" title="Style Compass" />
+      <StyleCompassSection index="" title="Style Compass" />
 
       <ContactCtaSection />
     </>

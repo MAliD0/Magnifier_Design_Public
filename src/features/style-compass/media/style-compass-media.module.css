@@ -1,0 +1,45 @@
+.media {
+  position: relative;
+  overflow: hidden;
+  background: var(--brand-dark-mid);
+}
+
+.media[data-tone="sand"] {
+  background: var(--brand-taupe-light);
+}
+
+.media[data-tone="sage"] {
+  background: var(--brand-premium);
+}
+
+.media[data-tone="clay"] {
+  background: var(--brand-taupe);
+}
+
+.media[data-tone="stone"] {
+  background: var(--brand-dark-mid);
+}
+
+.media[data-tone="ink"] {
+  background: var(--brand-premium-dark);
+}
+
+.image,
+.palette {
+  position: absolute;
+  inset: 0;
+}
+
+.image {
+  background-position: center;
+  background-size: cover;
+}
+
+.palette {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.palette > span {
+  background: var(--style-compass-colour);
+}

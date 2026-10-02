@@ -25,10 +25,6 @@ export function AboutPageSection() {
 
             <p className={styles.founder}>{content.founder}</p>
 
-            <blockquote className={styles.heroQuote}>
-              <p>“{content.quote}”</p>
-            </blockquote>
-
             <PlaceholderImage
               label={content.media.portrait.label}
               tone={content.media.portrait.tone}
@@ -52,17 +48,33 @@ export function AboutPageSection() {
               className={styles.projectMedia}
             />
 
-            <p className={styles.experience}>{content.experience}</p>
+            <div className={styles.experience}>
+              <h2 className={styles.sectionTitle}>
+                {content.experience.title}
+              </h2>
 
-            <div className={styles.philosophyBlock}>
+              <div className={styles.sectionCopy}>
+                {content.experience.paragraphs.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
+            </div>
+
+            <div className={styles.approachBlock}>
               <div className={styles.sectionMarker}>
                 <span>02</span>
                 <span>Approach</span>
               </div>
 
-              <p className={styles.philosophy}>
-                {content.philosophy}
-              </p>
+              <h2 className={styles.sectionTitle}>
+                {content.approach.title}
+              </h2>
+
+              <div className={styles.sectionCopy}>
+                {content.approach.paragraphs.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
             </div>
 
             <PlaceholderImage
@@ -83,9 +95,15 @@ export function AboutPageSection() {
             </div>
 
             <div className={styles.practiceCopy}>
-              {content.practice.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
+              <h2 className={styles.sectionTitle}>
+                {content.practice.title}
+              </h2>
+
+              <div className={styles.sectionCopy}>
+                {content.practice.paragraphs.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
             </div>
 
             <PlaceholderImage
@@ -97,12 +115,19 @@ export function AboutPageSection() {
         </Container>
       </section>
 
-      <section className={styles.contact}>
+      <section className={styles.actionsSection}>
         <Container>
-          <Link href="/contact" className={styles.contactLink}>
-            <span>{content.cta}</span>
-            <span aria-hidden="true">→</span>
-          </Link>
+          <div className={styles.actionLinks}>
+            <Link href="/projects" className={styles.actionLink}>
+              <span>{content.actions.projects}</span>
+              <span aria-hidden="true">→</span>
+            </Link>
+
+            <Link href="/contact" className={styles.actionLink}>
+              <span>{content.actions.contact}</span>
+              <span aria-hidden="true">→</span>
+            </Link>
+          </div>
         </Container>
       </section>
     </main>

@@ -57,7 +57,10 @@ export function Header() {
       style={headerStyle}
     >
       <div className={styles.surface}>
-        <Container className={styles.primaryRow}>
+        <Container
+          className={styles.primaryRow}
+          data-transition-fade
+        >
           <Link
             href="/"
             aria-label={`${siteConfig.name} home`}
@@ -125,7 +128,7 @@ export function Header() {
       </div>
 
       <div className={`${styles.surface} ${styles.mobileSurface}`}>
-        <Container>
+        <Container data-transition-fade>
           <nav
             aria-label="Primary navigation"
             className={`${styles.mobileNavigation} ${styles.revealNavigation}`}

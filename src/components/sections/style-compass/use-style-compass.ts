@@ -8,12 +8,19 @@ import {
   useState,
 } from "react";
 
+import { createEmptyStyleCompassSelections } from "@/features/style-compass/domain/validate-style-compass";
+import {
+  readStyleCompassSession,
+  writeStyleCompassSession,
+} from "@/features/style-compass/state/style-compass-session";
+
 import type {
   StyleCompassAnalyzeHandler,
   StyleCompassCategoryId,
   StyleCompassCompleteHandler,
   StyleCompassCompleteSelections,
   StyleCompassOptionId,
+  StyleCompassResult,
   StyleCompassSelections,
   StyleCompassStatus,
 } from "./types";
@@ -23,13 +30,6 @@ export const STYLE_COMPASS_COMPLETE_EVENT =
 
 export const STYLE_COMPASS_ANALYZE_EVENT =
   "style-compass:analyze";
-
-const EMPTY_SELECTIONS: StyleCompassSelections = {
-  colour: null,
-  form: null,
-  texture: null,
-  feeling: null,
-};
 
 type UseStyleCompassOptions = {
   onComplete?: StyleCompassCompleteHandler;
@@ -41,8 +41,31 @@ export function useStyleCompass({
   onAnalyze,
 }: UseStyleCompassOptions = {}) {
   const [selections, setSelections] =
-    useState<StyleCompassSelections>(EMPTY_SELECTIONS);
-  const lastEmittedSignatureRef = useRef<string | null>(null);
+    useState<StyleCompassSelections>(
+      createEmptyStyleCompassSelections,
+    );
+  const [sessionReady, setSessionReady] =
+    useState(false);
+  const lastEmittedSignatureRef =
+    useRef<string | null>(null);
+
+  useEffect(() => {
+    const restored = readStyleCompassSession();
+
+    if (restored) {
+      setSelections(restored);
+    }
+
+    setSessionReady(true);
+  }, []);
+
+  useEffect(() => {
+    if (!sessionReady) {
+      return;
+    }
+
+    writeStyleCompassSession(selections);
+  }, [selections, sessionReady]);
 
   const selectedCount = useMemo(
     () =>
@@ -104,24 +127,34 @@ export function useStyleCompass({
     [],
   );
 
-  const analyze = useCallback(() => {
+  const analyze = useCallback(async () => {
     if (status !== "complete") {
-      return;
+      return null;
     }
 
     const completeSelections =
       selections as StyleCompassCompleteSelections;
+    const { calculateStyleDirection } =
+      await import(
+        "@/features/style-compass/domain/calculate-style-direction"
+      );
+    const result: StyleCompassResult =
+      calculateStyleDirection(
+        completeSelections,
+      );
 
-    onAnalyze?.(completeSelections);
+    onAnalyze?.(result);
 
     window.dispatchEvent(
-      new CustomEvent<StyleCompassCompleteSelections>(
+      new CustomEvent<StyleCompassResult>(
         STYLE_COMPASS_ANALYZE_EVENT,
         {
-          detail: completeSelections,
+          detail: result,
         },
       ),
     );
+
+    return result;
   }, [onAnalyze, selections, status]);
 
   useEffect(() => {
@@ -131,12 +164,14 @@ export function useStyleCompass({
     }
 
     if (
-      lastEmittedSignatureRef.current === completeSignature
+      lastEmittedSignatureRef.current ===
+      completeSignature
     ) {
       return;
     }
 
-    lastEmittedSignatureRef.current = completeSignature;
+    lastEmittedSignatureRef.current =
+      completeSignature;
 
     const completeSelections =
       selections as StyleCompassCompleteSelections;
@@ -151,7 +186,11 @@ export function useStyleCompass({
         },
       ),
     );
-  }, [completeSignature, onComplete, selections]);
+  }, [
+    completeSignature,
+    onComplete,
+    selections,
+  ]);
 
   return {
     selections,

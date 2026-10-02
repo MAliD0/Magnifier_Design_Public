@@ -29,8 +29,8 @@ const copy = {
   complete: {
     title: "Your Style Compass is complete.",
     description:
-      "All four preference fields are answered. You can now analyse the complete selection set.",
-    progressLabel: "Ready to analyse",
+      "All four preference fields are answered. You can now review the complete selection set.",
+    progressLabel: "Ready to review",
   },
 } as const;
 
